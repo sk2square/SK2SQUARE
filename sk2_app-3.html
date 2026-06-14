@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>SK² — IT Professionals Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --m:#800000;--m2:#6B0000;--m3:#550000;--m4:#FDF8F8;--m5:#FFFFFF;
+  --gold:#C9A84C;--gold2:#E8C96A;--gdim:rgba(201,168,76,0.12);
+  --white:#FFFFFF;--off:#FDF8F8;--cream:#FAF3F3;
+  --gray:#9CA3AF;--gray2:#D1C5C5;
+  --green:#22C55E;--blue:#3B82F6;--red:#EF4444;--purple:#8B5CF6;
+  --border:rgba(128,0,0,0.25);--border2:rgba(255,255,255,0.08);
+  --glow:0 0 20px rgba(128,0,0,0.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#F9F0F0;color:#1A0000;min-height:100vh;overflow-x:hidden}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* ── SPLASH ── */
+#splash{background:#FFFFFF;align-items:center;justify-content:center;gap:0.85rem;position:relative;overflow:hidden}
+.sp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(128,0,0,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(128,0,0,0.15) 1px,transparent 1px);background-size:40px 40px}
+.sp-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:radial-gradient(ellipse,rgba(128,0,0,0.4),transparent 70%)}
+.sp-logo{width:90px;height:90px;background:var(--m);border:2px solid var(--gold);border-radius:16px;display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;color:var(--white);position:relative;z-index:1;box-shadow:var(--glow),0 0 0 4px rgba(201,168,76,0.1)}
+.sp-title{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;letter-spacing:2px;color:var(--white);position:relative;z-index:1}
+.sp-title span{color:var(--gold)}
+.sp-chip{font-size:0.65rem;color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-weight:700;position:relative;z-index:1;border:1px solid rgba(201,168,76,0.3);padding:0.3rem 1rem;border-radius:20px;background:rgba(201,168,76,0.05)}
+.sp-bar{width:200px;height:2px;background:rgba(128,0,0,0.3);border-radius:1px;margin-top:1rem;overflow:hidden;position:relative;z-index:1}
+.sp-prog{height:100%;background:linear-gradient(90deg,var(--m),var(--gold));animation:load 2.8s ease forwards}
+@keyframes load{0%{width:0}100%{width:100%}}
+
+/* ── AUTH ── */
+#auth{background:linear-gradient(135deg,#FFF8F8 0%,#FFFFFF 50%,#FFF0F0 100%);align-items:center;justify-content:center;padding:1.5rem;position:relative;overflow:hidden}
+.auth-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(128,0,0,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(128,0,0,0.05) 1px,transparent 1px);background-size:40px 40px}
+.auth-box{width:100%;max-width:420px;background:#FDF8F8;border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;z-index:1;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.auth-logo{text-align:center;margin-bottom:1.75rem}
+.auth-mark{display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;background:linear-gradient(135deg,#800000,#550000);border:2px solid #C9A84C;border-radius:16px;font-family:'Orbitron',monospace;font-weight:900;font-size:1.3rem;color:#FFFFFF;margin-bottom:0.85rem;box-shadow:0 8px 25px rgba(128,0,0,0.3)}
+.auth-title{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;letter-spacing:2px;color:#1A0000}
+.auth-title span{color:var(--gold)}
+.auth-chip{font-size:0.62rem;color:#800000;letter-spacing:2px;text-transform:uppercase;margin-top:0.3rem;display:block;font-weight:700;background:rgba(128,0,0,0.06);padding:0.35rem 1rem;border-radius:20px;border:1px solid rgba(128,0,0,0.15);display:inline-block}
+.tabs{display:flex;background:#FFFFFF;border-radius:10px;padding:3px;margin-bottom:1.25rem;border:1px solid var(--border)}
+.tab{flex:1;padding:0.55rem;text-align:center;border-radius:8px;cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--gray);transition:all 0.2s;letter-spacing:0.5px;text-transform:uppercase}
+.tab.on{background:var(--m);color:var(--white);box-shadow:var(--glow)}
+.fg{margin-bottom:0.85rem}
+.fg label{display:block;font-size:0.65rem;font-weight:700;color:#800000;margin-bottom:0.35rem;letter-spacing:1.5px;text-transform:uppercase;font-family:'Orbitron',monospace}
+.fg input,.fg select{width:100%;background:#FFFFFF;border:1px solid var(--border);border-radius:8px;padding:0.72rem 0.9rem;color:var(--white);font-family:'Inter',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s}
+.fg input:focus,.fg select:focus{border-color:#800000;box-shadow:0 0 0 2px rgba(128,0,0,0.1)}
+.fg select option{background:#FDF8F8}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.btn-m{width:100%;background:var(--m);color:var(--white);border:none;padding:0.82rem;border-radius:8px;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:'Orbitron',monospace;letter-spacing:1px;transition:all 0.2s;text-transform:uppercase;box-shadow:var(--glow)}
+.btn-m:hover{background:var(--m2)}
+.btn-o{width:100%;background:#FFFFFF;color:#800000;border:1px solid rgba(128,0,0,0.3);padding:0.82rem;border-radius:8px;font-weight:600;font-size:0.82rem;cursor:pointer;font-family:'Inter',sans-serif;margin-top:0.5rem;transition:all 0.2s}
+.btn-o:hover{border-color:var(--m);background:rgba(128,0,0,0.1)}
+.div{text-align:center;color:#8B6B6B;font-size:0.75rem;margin:0.75rem 0;position:relative}
+.div::before,.div::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:var(--border)}
+.div::before{left:0}.div::after{right:0}
+.stag{padding:0.3rem 0.7rem;border:1px solid var(--border);border-radius:20px;font-size:0.72rem;cursor:pointer;color:var(--gray);transition:all 0.15s;background:#FFFFFF}
+.stag.on{border-color:var(--m);color:var(--white);background:rgba(128,0,0,0.3)}
+.skill-grid{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.4rem}
+
+/* ── APP ── */
+#app{flex-direction:column}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-bottom:2px solid rgba(128,0,0,0.15);box-shadow:0 2px 20px rgba(128,0,0,0.08);height:54px;display:flex;align-items:center;padding:0 1rem;gap:0.75rem}
+.tb-logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.05rem;letter-spacing:2px;color:#FFFFFF;text-shadow:0 0 10px rgba(255,255,255,0.3);white-space:nowrap}
+.tb-logo span{color:var(--gold)}
+.tb-search{flex:1;position:relative}
+.tb-search input{width:100%;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:0.45rem 0.9rem 0.45rem 2rem;color:#FFFFFF;font-size:0.82rem;outline:none;font-family:'Inter',sans-serif}
+.tb-search input:focus{border-color:var(--m)}
+.tb-search::before{content:'⌕';position:absolute;left:0.65rem;top:50%;transform:translateY(-50%);font-size:1rem;color:rgba(255,255,255,0.7)}
+.tb-right{display:flex;gap:0.5rem;align-items:center}
+.ib{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;font-size:0.85rem;position:relative}
+.ndot{position:absolute;top:3px;right:3px;width:7px;height:7px;background:var(--gold);border-radius:50%;border:2px solid var(--m5)}
+.av{width:32px;height:32px;border-radius:50%;background:var(--m);display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:900;font-size:0.65rem;color:var(--white);cursor:pointer;border:2px solid var(--gold);flex-shrink:0}
+
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.98);backdrop-filter:blur(20px);border-top:2px solid rgba(128,0,0,0.15);box-shadow:0 -4px 20px rgba(128,0,0,0.08);display:flex;padding:0.4rem 0 0.65rem}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.2rem;cursor:pointer;padding:0.2rem 0;color:#B89898;transition:all 0.2s}
+.ni.active{color:#800000}
+.ni .ico{font-size:1.2rem}
+.ni .lbl{font-size:0.58rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;font-family:'Orbitron',monospace;margin-top:1px}
+
+.mc{margin-top:54px;margin-bottom:65px;flex:1;overflow-y:auto}
+.tp{display:none;padding:0.85rem}
+.tp.active{display:block}
+
+/* ── CHIP LINE ── */
+.chip-line{display:flex;gap:0.5rem;overflow-x:auto;padding:0.65rem 0.85rem;background:#FFFFFF;border-bottom:1px solid rgba(128,0,0,0.1);border-bottom:1px solid var(--border);scrollbar-width:none}
+.chip-line::-webkit-scrollbar{display:none}
+.chip{padding:0.3rem 0.85rem;border-radius:20px;border:1px solid var(--border);font-size:0.7rem;font-weight:700;cursor:pointer;color:var(--gray);white-space:nowrap;background:#FFFFFF;font-family:'Orbitron',monospace;letter-spacing:0.5px;transition:all 0.2s}
+.chip.active{background:#800000;color:#FFFFFF;border-color:#800000;box-shadow:0 4px 15px rgba(128,0,0,0.35)}
+
+/* ── STORIES ── */
+.stories{display:flex;gap:0.75rem;overflow-x:auto;padding:0.85rem;scrollbar-width:none;background:#FFFFFF;border-bottom:1px solid rgba(128,0,0,0.08)}
+.stories::-webkit-scrollbar{display:none}
+.story{display:flex;flex-direction:column;align-items:center;gap:0.4rem;cursor:pointer;flex-shrink:0}
+.story-ring{width:56px;height:56px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#800000,#C9A84C);box-shadow:0 2px 8px rgba(128,0,0,0.25)}
+.story-ring.seen{background:#FDF8F8}
+.story-av{width:100%;height:100%;border-radius:50%;background:#550000;display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:700;font-size:0.72rem;border:3px solid #FFFFFF;color:#FFFFFF}
+.story-lbl{font-size:0.62rem;color:#800000;max-width:52px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Orbitron',monospace;font-weight:700;margin-top:2px}
+
+/* ── POST CARD ── */
+.cpost{background:#FDF8F8;border:1px solid var(--border);border-radius:12px;padding:0.9rem;margin-bottom:0.75rem}
+.cpost-top{display:flex;gap:0.65rem;align-items:center}
+.cpost-input{flex:1;background:#FFFFFF;border:1px solid var(--border);border-radius:20px;padding:0.55rem 1rem;color:var(--gray);font-size:0.82rem;cursor:pointer}
+.cpost-btns{display:flex;gap:0;margin-top:0.65rem;padding-top:0.65rem;border-top:1px solid rgba(128,0,0,0.08)}
+.cpb{flex:1;display:flex;align-items:center;justify-content:center;gap:0.3rem;font-size:0.68rem;color:#8B6B6B;cursor:pointer;padding:0.3rem;border-radius:6px;transition:all 0.15s;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.cpb:hover{background:rgba(128,0,0,0.2);color:var(--white)}
+
+.pc{background:#FDF8F8;border:1px solid var(--border);border-radius:12px;padding:0.9rem;margin-bottom:0.75rem;transition:border-color 0.2s}
+.pc:hover{border-color:rgba(128,0,0,0.5)}
+.ph{display:flex;gap:0.65rem;align-items:flex-start;margin-bottom:0.65rem}
+.pa{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:700;font-size:0.72rem;color:var(--white);flex-shrink:0;border:2px solid rgba(255,255,255,0.1)}
+.pm h4{font-size:0.875rem;font-weight:700;line-height:1.2;color:#1A0000}
+.pm .role{font-size:0.68rem;color:var(--gold);font-weight:600;margin-top:1px;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.pm .time{font-size:0.65rem;color:var(--gray);margin-top:2px}
+.flw-btn{margin-left:auto;padding:0.28rem 0.7rem;border:1.5px solid #800000;border-radius:20px;font-size:0.65rem;font-weight:700;color:#800000;cursor:pointer;background:rgba(128,0,0,0.05);font-family:'Orbitron',monospace;transition:all 0.15s;flex-shrink:0;letter-spacing:0.3px}
+.flw-btn:hover,.flw-btn.following{background:var(--m);color:var(--white)}
+.vbadge{display:inline-block;width:13px;height:13px;background:var(--m);border-radius:50%;font-size:0.5rem;text-align:center;line-height:13px;margin-left:2px;vertical-align:middle;border:1px solid var(--gold)}
+.pb{font-size:0.855rem;line-height:1.7;color:#2D0A0A;margin-bottom:0.65rem}
+.code-block{background:#FFF5F5;border:1px solid rgba(128,0,0,0.4);border-radius:8px;padding:0.7rem;font-family:'Courier New',monospace;font-size:0.76rem;overflow-x:auto;margin-bottom:0.65rem;position:relative}
+.code-lang{position:absolute;top:0.4rem;right:0.6rem;font-size:0.6rem;color:var(--gold);font-family:'Orbitron',monospace;letter-spacing:1px}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.str{color:#A5D6FF}.cm{color:#888}
+.ptag{display:inline-block;background:rgba(128,0,0,0.06);border:1px solid rgba(128,0,0,0.2);color:#800000;border-radius:4px;padding:0.12rem 0.45rem;font-size:0.7rem;font-weight:700;margin:0.1rem;cursor:pointer;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.pacts{display:flex;gap:0;border-top:1px solid rgba(128,0,0,0.08);margin-top:0.65rem;padding-top:0.65rem}
+.pa-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:0.3rem;font-size:0.72rem;color:#8B6B6B;cursor:pointer;padding:0.3rem;border-radius:8px;transition:all 0.15s;border:none;background:none;font-family:'Inter',sans-serif}
+.pa-btn:hover{color:var(--white);background:rgba(128,0,0,0.2)}
+.pa-btn.liked{color:var(--red)}
+.pa-btn.saved{color:var(--gold)}
+
+/* ── SPONSOR ── */
+.spon{background:linear-gradient(135deg,rgba(128,0,0,0.08),rgba(128,0,0,0.03));border:1px solid rgba(128,0,0,0.4);border-radius:12px;padding:0.8rem;margin-bottom:0.75rem;display:flex;gap:0.65rem;align-items:center}
+.spon-ico{width:42px;height:42px;border-radius:10px;background:var(--m);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;box-shadow:var(--glow)}
+.spon-lbl{font-size:0.58rem;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-family:'Orbitron',monospace}
+.spon h4{font-size:0.82rem;font-weight:700;margin-top:1px;color:#1A0000}
+.spon p{font-size:0.7rem;color:#6B4040}
+.spon-cta{margin-left:auto;background:var(--m);color:var(--white);border:none;padding:0.38rem 0.85rem;border-radius:6px;font-size:0.68rem;font-weight:700;cursor:pointer;white-space:nowrap;font-family:'Orbitron',monospace;letter-spacing:0.5px;box-shadow:var(--glow)}
+
+/* ── TRENDING ── */
+.trend-card{background:#FDF8F8;border:1px solid var(--border);border-radius:10px;padding:0.8rem;margin-bottom:0.5rem;display:flex;gap:0.7rem;align-items:center;cursor:pointer}
+.trend-rank{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:#800000;width:24px;flex-shrink:0;text-align:center;text-shadow:var(--glow)}
+.trend-body h4{font-size:0.82rem;font-weight:700;color:#1A0000}
+.trend-body p{font-size:0.7rem;color:#6B4040}
+.trend-count{margin-left:auto;font-size:0.68rem;color:var(--gold);font-weight:700;font-family:'Orbitron',monospace}
+
+/* ── REELS ── */
+#tp-reels{padding:0}
+.reels-top{padding:0.65rem;display:flex;gap:0.4rem;overflow-x:auto;scrollbar-width:none;background:#FDF8F8;border-bottom:1px solid var(--border)}
+.reels-top::-webkit-scrollbar{display:none}
+.rcat{padding:0.3rem 0.8rem;border-radius:20px;border:1px solid var(--border);font-size:0.65rem;font-weight:700;cursor:pointer;color:var(--gray);white-space:nowrap;background:#FFFFFF;font-family:'Orbitron',monospace}
+.rcat.active{background:var(--m);color:var(--white);border-color:var(--m);box-shadow:var(--glow)}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.rt{aspect-ratio:9/16;background:#FDF8F8;position:relative;overflow:hidden;cursor:pointer}
+.rt-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.rt-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,0,0,0.95) 0%,transparent 55%)}
+.rt-info{position:absolute;bottom:0.55rem;left:0.55rem;right:0.55rem}
+.rt-info h4{font-size:0.7rem;font-weight:700;line-height:1.3;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.rt-info p{font-size:0.6rem;color:rgba(255,255,255,0.55);margin-top:2px}
+.rt-views{position:absolute;top:0.45rem;right:0.45rem;background:rgba(128,0,0,0.8);border-radius:10px;padding:0.12rem 0.45rem;font-size:0.62rem;font-weight:700;font-family:'Orbitron',monospace;color:var(--gold);border:1px solid rgba(201,168,76,0.3)}
+.rt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;background:var(--m);border-radius:50%;display:grid;place-items:center;font-size:0.9rem;box-shadow:var(--glow);border:2px solid var(--gold)}
+.rt-like{position:absolute;bottom:0.55rem;right:0.55rem;font-size:0.68rem;color:var(--gold);font-family:'Orbitron',monospace}
+
+/* ── AI CHAT ── */
+#tp-ai{padding:0;display:flex;flex-direction:column;height:calc(100vh - 119px)}
+.ai-header{padding:0.85rem;border-bottom:1px solid var(--border);display:flex;gap:0.75rem;align-items:center;background:#FDF8F8}
+.ai-av{width:44px;height:44px;border-radius:50%;background:var(--m);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0;border:2px solid var(--gold);box-shadow:var(--glow)}
+.ai-inf h3{font-family:'Orbitron',monospace;font-size:0.82rem;font-weight:700;letter-spacing:1px}
+.ai-inf p{font-size:0.65rem;color:var(--green);margin-top:2px;font-family:'Orbitron',monospace;letter-spacing:0.5px}
+.ai-status{margin-left:auto;display:flex;align-items:center;gap:0.35rem;font-size:0.65rem;color:var(--green);font-family:'Orbitron',monospace}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;box-shadow:0 0 6px var(--green)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chat-msgs{flex:1;overflow-y:auto;padding:0.85rem;display:flex;flex-direction:column;gap:0.65rem}
+.msg{max-width:85%;padding:0.72rem 0.9rem;border-radius:12px;font-size:0.845rem;line-height:1.65}
+.msg.bot{background:#FDF8F8;border:1px solid rgba(128,0,0,0.15);border-radius:12px 12px 12px 4px;align-self:flex-start;color:rgba(255,255,255,0.88)}
+.msg.user{background:var(--m);color:var(--white);border-radius:12px 12px 4px 12px;align-self:flex-end;font-weight:500;box-shadow:var(--glow)}
+.msg.bot code{background:rgba(128,0,0,0.3);padding:0.1rem 0.35rem;border-radius:4px;font-family:monospace;font-size:0.78rem;color:var(--gold)}
+.typing{display:flex;gap:4px;padding:0.55rem 0.8rem;background:#FDF8F8;border:1px solid var(--border);border-radius:12px;width:fit-content;align-self:flex-start}
+.td{width:7px;height:7px;border-radius:50%;background:var(--m);animation:bounce 1.2s infinite}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.quick-qs{display:flex;gap:0.4rem;flex-wrap:wrap;padding:0.65rem;background:#FDF8F8;border-top:1px solid var(--border)}
+.qq{padding:0.3rem 0.7rem;border:1px solid rgba(128,0,0,0.4);border-radius:20px;font-size:0.68rem;color:var(--gold);cursor:pointer;background:rgba(128,0,0,0.15);transition:all 0.15s;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.qq:hover{background:rgba(128,0,0,0.4)}
+.chat-inp-row{padding:0.65rem;border-top:1px solid var(--border);display:flex;gap:0.5rem;background:#FFFFFF}
+.chat-inp{flex:1;background:#FDF8F8;border:1px solid rgba(128,0,0,0.2);color:#1A0000;border-radius:20px;padding:0.6rem 1rem;color:var(--white);font-family:'Inter',sans-serif;font-size:0.875rem;outline:none}
+.chat-inp:focus{border-color:var(--m)}
+.send-btn{width:40px;height:40px;background:var(--m);border:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:0.9rem;flex-shrink:0;box-shadow:var(--glow)}
+
+/* ── SEARCH ── */
+.scats{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.85rem}
+.sc{padding:0.32rem 0.75rem;border-radius:20px;border:1px solid var(--border);font-size:0.65rem;cursor:pointer;color:var(--gray);background:#FFFFFF;font-family:'Orbitron',monospace}
+.sc.active{background:var(--m);color:var(--white);border-color:var(--m);box-shadow:var(--glow)}
+.sr{background:#FDF8F8;border:1px solid var(--border);border-radius:12px;padding:0.85rem;margin-bottom:0.6rem;display:flex;gap:0.75rem;cursor:pointer;transition:border-color 0.2s}
+.sr:hover{border-color:rgba(128,0,0,0.5)}
+.sr-ico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+.sr h4{font-size:0.84rem;font-weight:700;margin-bottom:0.15rem}
+.sr p{font-size:0.73rem;color:var(--gray);line-height:1.4}
+.sr-meta{display:flex;gap:0.65rem;margin-top:0.35rem}
+.srm{font-size:0.65rem;color:var(--gold);font-weight:700;font-family:'Orbitron',monospace}
+
+/* ── JOBS ── */
+.jcard{background:#FDF8F8;border:1px solid var(--border);border-radius:12px;padding:0.9rem;margin-bottom:0.65rem;cursor:pointer;transition:border-color 0.2s}
+.jcard:hover{border-color:rgba(128,0,0,0.5)}
+.jcard-top{display:flex;gap:0.65rem;margin-bottom:0.6rem}
+.jlogo{width:44px;height:44px;border-radius:10px;background:var(--m);display:grid;place-items:center;font-size:1.3rem;flex-shrink:0;box-shadow:var(--glow)}
+.jtitle{font-size:0.875rem;font-weight:700;color:#1A0000}
+.jcompany{font-size:0.72rem;color:var(--gold);margin-top:1px;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.jloc{font-size:0.68rem;color:#6B4040;margin-top:1px}
+.jtags{display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.65rem}
+.jt{padding:0.2rem 0.55rem;background:rgba(128,0,0,0.06);border:1px solid rgba(128,0,0,0.15);border-radius:4px;font-size:0.65rem;color:#8B6B6B;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.jbottom{display:flex;align-items:center;justify-content:space-between}
+.jsal{font-size:0.85rem;font-weight:700;color:var(--green)}
+.japply{background:var(--m);color:var(--white);border:none;padding:0.38rem 0.9rem;border-radius:6px;font-size:0.68rem;font-weight:700;cursor:pointer;font-family:'Orbitron',monospace;letter-spacing:0.5px;box-shadow:var(--glow)}
+
+/* ── NOTIFICATIONS ── */
+.ni-item{display:flex;gap:0.65rem;padding:0.85rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.ni-item:hover{background:rgba(128,0,0,0.1)}
+.ni-item.unread{background:rgba(128,0,0,0.04)}
+.ni-av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:700;font-size:0.72rem;color:var(--white);flex-shrink:0;border:2px solid rgba(255,255,255,0.1)}
+.ni-body{flex:1}
+.ni-body p{font-size:0.82rem;line-height:1.5;color:#2D0A0A}
+.ni-body p strong{color:#1A0000}
+.ni-time{font-size:0.65rem;color:var(--gray);margin-top:2px;font-family:'Orbitron',monospace}
+.udot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;align-self:center;box-shadow:0 0 6px var(--gold)}
+
+/* ── PROFILE ── */
+.prof-cover{height:110px;background:linear-gradient(135deg,var(--m3),var(--m),var(--m2));position:relative;overflow:hidden}
+.prof-cover::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:20px 20px}
+.prof-av-wrap{position:relative;display:inline-block;margin-left:1rem;margin-top:-30px}
+.prof-av{width:68px;height:68px;border-radius:50%;background:var(--m);display:grid;place-items:center;font-family:'Orbitron',monospace;font-weight:900;font-size:1.1rem;color:var(--white);border:3px solid var(--m5);box-shadow:var(--glow)}
+.prof-vbadge{position:absolute;bottom:1px;right:1px;width:18px;height:18px;background:var(--gold);border-radius:50%;display:grid;place-items:center;font-size:0.55rem;border:2px solid var(--m5)}
+.prof-info{padding:0.5rem 1rem 0.85rem}
+.prof-info h2{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;letter-spacing:1px;color:#1A0000}
+.prof-info .handle{color:#8B6B6B;font-size:0.78rem;margin-top:1px;font-family:'Orbitron',monospace}
+.prof-info .bio{font-size:0.82rem;color:#6B4040;margin-top:0.5rem;line-height:1.65}
+.prof-stats{display:flex;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:#FDF8F8}
+.ps{flex:1;text-align:center;padding:0.7rem 0;border-right:1px solid var(--border);cursor:pointer}
+.ps:last-child{border-right:none}
+.ps .n{font-family:'Orbitron',monospace;font-size:1rem;font-weight:900;color:var(--gold)}
+.ps .l{font-size:0.58rem;color:var(--gray);margin-top:1px;letter-spacing:0.5px;text-transform:uppercase;font-family:'Orbitron',monospace}
+.prof-section{padding:0.85rem 1rem;border-bottom:1px solid rgba(128,0,0,0.1)}
+.psec-title{font-family:'Orbitron',monospace;font-size:0.65rem;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.65rem}
+.skill-pill{display:inline-block;background:rgba(128,0,0,0.05);border:1px solid rgba(128,0,0,0.2);border-radius:6px;padding:0.28rem 0.65rem;font-size:0.68rem;margin:0.2rem;color:#550000;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.exp-item{display:flex;gap:0.65rem;margin-bottom:0.75rem}
+.exp-logo{width:36px;height:36px;border-radius:8px;background:var(--m);display:grid;place-items:center;font-size:1rem;flex-shrink:0;box-shadow:var(--glow)}
+.exp-title{font-size:0.85rem;font-weight:700;color:#1A0000}
+.exp-company{font-size:0.72rem;color:var(--gold);font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.exp-dur{font-size:0.65rem;color:#8B6B6B;margin-top:1px;font-family:'Orbitron',monospace}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{font-family:'Orbitron',monospace;font-size:0.65rem;font-weight:700;color:#800000;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.65rem;display:flex;align-items:center;gap:0.5rem}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--m);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:0.55rem 1.1rem;font-size:0.8rem;font-weight:600;opacity:0;transition:all 0.25s;z-index:500;white-space:nowrap;pointer-events:none;font-family:'Orbitron',monospace;letter-spacing:0.5px;box-shadow:var(--glow)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── BADGE ── */
+.badge{display:inline-block;padding:0.18rem 0.5rem;border-radius:20px;font-size:0.65rem;font-weight:700;font-family:'Orbitron',monospace;letter-spacing:0.3px}
+.bg{background:rgba(34,197,94,0.12);color:var(--green)}
+.by{background:rgba(245,158,11,0.12);color:#F59E0B}
+.br{background:rgba(239,68,68,0.12);color:var(--red)}
+.bb{background:rgba(59,130,246,0.12);color:var(--blue)}
+.bm{background:rgba(128,0,0,0.25);color:var(--gold)}
+
+/* ── TOGGLE ── */
+.toggle{width:44px;height:24px;background:#FDF8F8;border-radius:12px;position:relative;cursor:pointer;border:1px solid var(--border)}
+.toggle.on{background:var(--m);box-shadow:var(--glow)}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:white;border-radius:50%;top:2px;left:2px;transition:left 0.2s}
+.toggle.on::after{left:22px}
+
+@media(min-width:600px){.mc{max-width:480px;margin-left:auto;margin-right:auto}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="screen active">
+  <div class="sp-grid"></div>
+  <div class="sp-glow"></div>
+  <div class="sp-logo">SK²</div>
+  <div class="sp-title">SK<span>²</span> NETWORK</div>
+  <div class="sp-chip">⚡ AI · ROBOTIC · SOCIAL · IT</div>
+  <div class="sp-bar"><div class="sp-prog"></div></div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="screen">
+  <div class="auth-grid"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="auth-mark">SK²</div>
+      <div class="auth-title">SK<span>²</span> NETWORK</div>
+      <span class="auth-chip">⚡ Global IT Intelligence Platform</span>
+    </div>
+    <div class="tabs">
+      <div class="tab on" onclick="sat('l')">Sign In</div>
+      <div class="tab" onclick="sat('r')">Register</div>
+    </div>
+    <div id="lf">
+      <div class="fg"><label>Email / SK2 ID</label><input type="email" placeholder="you@company.com"/></div>
+      <div class="fg"><label>Password</label><input type="password" placeholder="••••••••"/></div>
+      <button class="btn-m" onclick="goApp()">⚡ Access Network</button>
+      <div class="div">or connect with</div>
+      <button class="btn-o" onclick="goApp()" style="color:#800000;font-weight:700;border:1px solid rgba(128,0,0,0.3)">🔗 Continue with Google</button>
+      <button class="btn-o" onclick="goApp()" style="margin-top:0.5rem;color:#800000;font-weight:700;border:1px solid rgba(128,0,0,0.3)">🍎 Continue with Apple</button>
+    </div>
+    <div id="rf" style="display:none">
+      <div class="fg"><label>Full Name</label><input placeholder="Your name"/></div>
+      <div class="fg"><label>Work Email</label><input type="email" placeholder="you@company.com"/></div>
+      <div class="fg"><label>SK2 Handle</label><input placeholder="@username"/></div>
+      <div class="fg"><label>Role</label>
+        <select>
+          <option>Software Engineer</option><option>DevOps / Cloud Engineer</option>
+          <option>AI / ML Engineer</option><option>Data Scientist</option>
+          <option>CTO / VP Engineering</option><option>GCC Advisor</option>
+          <option>Full Stack Developer</option><option>Cybersecurity Engineer</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Skills</label>
+        <div class="skill-grid">
+          <div class="stag" onclick="this.classList.toggle('on')">Python</div>
+          <div class="stag" onclick="this.classList.toggle('on')">JavaScript</div>
+          <div class="stag" onclick="this.classList.toggle('on')">React</div>
+          <div class="stag" onclick="this.classList.toggle('on')">AWS</div>
+          <div class="stag" onclick="this.classList.toggle('on')">Azure</div>
+          <div class="stag" onclick="this.classList.toggle('on')">DevOps</div>
+          <div class="stag" onclick="this.classList.toggle('on')">AI/ML</div>
+          <div class="stag" onclick="this.classList.toggle('on')">GCC</div>
+          <div class="stag" onclick="this.classList.toggle('on')">Kubernetes</div>
+          <div class="stag" onclick="this.classList.toggle('on')">Node.js</div>
+        </div>
+      </div>
+      <button class="btn-m" onclick="goApp()">⚡ Create SK2 ID</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="screen">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="tb-logo">SK<span>²</span></div>
+    <div class="tb-search"><input placeholder="Search engineers, errors, companies..." onclick="swt('search')"/></div>
+    <div class="tb-right">
+      <div class="ib" onclick="swt('notifications')">🔔<div class="ndot"></div></div>
+      <div class="av" onclick="swt('profile')">SK</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="mc">
+
+    <!-- FEED -->
+    <div id="tp-feed" class="tp active">
+
+      <!-- Chip Line -->
+      <div class="chip-line" style="margin:-0.85rem -0.85rem 0.85rem">
+        <div class="chip active" onclick="sc(this)">⚡ FOR YOU</div>
+        <div class="chip" onclick="sc(this)">👥 NETWORK</div>
+        <div class="chip" onclick="sc(this)">🏭 GCC NEWS</div>
+        <div class="chip" onclick="sc(this)">🤖 AI/ML</div>
+        <div class="chip" onclick="sc(this)">☁️ CLOUD</div>
+        <div class="chip" onclick="sc(this)">⚙️ DEVOPS</div>
+        <div class="chip" onclick="sc(this)">🔐 SECURITY</div>
+        <div class="chip" onclick="sc(this)">🇮🇳 BENGALURU</div>
+        <div class="chip" onclick="sc(this)">🌍 GLOBAL</div>
+      </div>
+
+      <!-- Stories -->
+      <div class="stories">
+        <div class="story" onclick="t('Your Story')"><div class="story-ring"><div class="story-av" style="font-size:1.4rem;background:#800000;color:#FFFFFF">+</div></div><div class="story-lbl">YOU</div></div>
+        <div class="story" onclick="t('Arjun')"><div class="story-ring"><div class="story-av" style="background:#1E3A5F">AR</div></div><div class="story-lbl">ARJUN</div></div>
+        <div class="story" onclick="t('Priya')"><div class="story-ring"><div class="story-av" style="background:#3D1A5F">PS</div></div><div class="story-lbl">PRIYA</div></div>
+        <div class="story" onclick="t('AWS')"><div class="story-ring"><div class="story-av" style="background:#5F3D00">AW</div></div><div class="story-lbl">AWS</div></div>
+        <div class="story seen" onclick="t('Vikram')"><div class="story-ring seen"><div class="story-av" style="background:#1A3D1A">VK</div></div><div class="story-lbl">VIKRAM</div></div>
+        <div class="story" onclick="t('SK2')"><div class="story-ring"><div class="story-av" style="background:var(--m)">SK²</div></div><div class="story-lbl">SK²GCC</div></div>
+      </div>
+
+      <!-- Create Post -->
+      <div class="cpost">
+        <div class="cpost-top">
+          <div class="av">SK</div>
+          <div class="cpost-input" onclick="opm()">Share intel, code, or query the network...</div>
+        </div>
+        <div class="cpost-btns">
+          <div class="cpb" onclick="opm()">🎬 REEL</div>
+          <div class="cpb" onclick="opm()">💻 CODE</div>
+          <div class="cpb" onclick="opm()">📡 POST</div>
+          <div class="cpb" onclick="opm()">❓ QUERY</div>
+          <div class="cpb" onclick="opm()">📊 POLL</div>
+        </div>
+      </div>
+
+      <!-- Sponsor -->
+      <div class="spon">
+        <div class="spon-ico">🏢</div>
+        <div>
+          <div class="spon-lbl">⚡ Sponsored · GCC</div>
+          <h4>SK² Global Services</h4>
+          <p>Build your India GCC in 8 weeks · 60% cost savings</p>
+        </div>
+        <button class="spon-cta" onclick="t('Opening...')">CONNECT</button>
+      </div>
+
+      <!-- Post 1 -->
+      <div class="pc">
+        <div class="ph">
+          <div class="pa" style="background:#1E3A5F">AR</div>
+          <div class="pm">
+            <h4>Arjun Reddy <span class="vbadge">✓</span></h4>
+            <div class="role">SR.CLOUD.ARCHITECT · GOOGLE · BLR</div>
+            <div class="time">2 hours ago</div>
+          </div>
+          <button class="flw-btn" onclick="flw(this)">+ FOLLOW</button>
+        </div>
+        <div class="pb">🚀 GCP just dropped automatic cross-region failover for Cloud Spanner. Zero RPO, near-zero RTO. Game changer for GCC teams. Enable in 3 commands:</div>
+        <div class="code-block">
+          <span class="code-lang">BASH</span>
+          <span class="cm"># Enable auto failover on Cloud Spanner</span><br/>
+          gcloud spanner instances update my-instance \<br/>
+          &nbsp;&nbsp;<span class="kw">--config</span>=<span class="str">regional-us-central1</span> \<br/>
+          &nbsp;&nbsp;<span class="kw">--autofailover</span>=<span class="str">true</span>
+        </div>
+        <div><span class="ptag">#CloudSpanner</span><span class="ptag">#GCP</span><span class="ptag">#GCC</span><span class="ptag">#DevOps</span></div>
+        <div class="pacts">
+          <button class="pa-btn" onclick="lk(this)">❤️ 847</button>
+          <button class="pa-btn" onclick="t('Commented! 💬')">💬 124</button>
+          <button class="pa-btn" onclick="t('Reposted! 🔁')">🔁 312</button>
+          <button class="pa-btn" onclick="sv(this)">🔖 SAVE</button>
+          <button class="pa-btn" onclick="t('Shared! ↗')">↗ SHARE</button>
+        </div>
+      </div>
+
+      <!-- Post 2 -->
+      <div class="pc">
+        <div class="ph">
+          <div class="pa" style="background:#3D1A5F">PS</div>
+          <div class="pm">
+            <h4>Priya Sharma <span class="vbadge">✓</span></h4>
+            <div class="role">AI.ML.LEAD · MICROSOFT.GCC · HYD</div>
+            <div class="time">5 hours ago</div>
+          </div>
+          <button class="flw-btn" onclick="flw(this)">+ FOLLOW</button>
+        </div>
+        <div class="pb">🤖 HOT TAKE: By 2027, every GCC in India will need a dedicated AI/ML team. We went 0→18 ML engineers in 14 months. India AI talent = world class. Stop outsourcing AI. Build captive. The math always wins for GCC over vendor for AI work 🧵</div>
+        <div><span class="ptag">#AI</span><span class="ptag">#GCC</span><span class="ptag">#MachineLearning</span><span class="ptag">#India</span></div>
+        <div class="pacts">
+          <button class="pa-btn" onclick="lk(this)">❤️ 2.1K</button>
+          <button class="pa-btn" onclick="t('Commented! 💬')">💬 389</button>
+          <button class="pa-btn" onclick="t('Reposted! 🔁')">🔁 741</button>
+          <button class="pa-btn" onclick="sv(this)">🔖 SAVE</button>
+          <button class="pa-btn" onclick="t('Shared! ↗')">↗ SHARE</button>
+        </div>
+      </div>
+
+      <!-- Sponsor 2 -->
+      <div class="spon">
+        <div class="spon-ico">☁️</div>
+        <div>
+          <div class="spon-lbl">⚡ Sponsored · Jobs</div>
+          <h4>AWS Hiring in India</h4>
+          <p>500+ GCC roles · Bengaluru & Hyderabad</p>
+        </div>
+        <button class="spon-cta" onclick="t('Opening jobs...')">APPLY</button>
+      </div>
+
+      <!-- Post 3 -->
+      <div class="pc">
+        <div class="ph">
+          <div class="pa" style="background:#1A3D1A">VK</div>
+          <div class="pm">
+            <h4>Vikram Kumar</h4>
+            <div class="role">DEVOPS.ENG · INFOSYS · PUNE</div>
+            <div class="time">8 hours ago</div>
+          </div>
+          <button class="flw-btn" onclick="flw(this)">+ FOLLOW</button>
+        </div>
+        <div class="pb">🔥 K8s ImagePullBackOff killed 3 hours of my life. Fix below. Never again.</div>
+        <div class="code-block">
+          <span class="code-lang">KUBECTL</span>
+          kubectl create secret docker-registry regcred \<br/>
+          &nbsp;&nbsp;<span class="kw">--docker-server</span>=<span class="str">your-registry.io</span> \<br/>
+          &nbsp;&nbsp;<span class="kw">--docker-username</span>=<span class="str">$USER</span> \<br/>
+          &nbsp;&nbsp;<span class="kw">--docker-password</span>=<span class="str">$TOKEN</span> \<br/>
+          &nbsp;&nbsp;<span class="kw">-n</span> production
+        </div>
+        <div><span class="ptag">#Kubernetes</span><span class="ptag">#K8s</span><span class="ptag">#DevOps</span><span class="ptag">#BugFix</span></div>
+        <div class="pacts">
+          <button class="pa-btn" onclick="lk(this)">❤️ 3.4K</button>
+          <button class="pa-btn" onclick="t('Commented! 💬')">💬 512</button>
+          <button class="pa-btn" onclick="t('Reposted! 🔁')">🔁 1.2K</button>
+          <button class="pa-btn" onclick="sv(this)">🔖 SAVE</button>
+          <button class="pa-btn" onclick="t('Shared! ↗')">↗ SHARE</button>
+        </div>
+      </div>
+
+      <!-- Trending -->
+      <div class="sec-lbl">🔥 TRENDING IN IT</div>
+      <div class="trend-card" onclick="t('Trending!')"><div class="trend-rank">01</div><div class="trend-body"><h4>#GCCIndia</h4><p>Global Capability Centers · Bengaluru</p></div><div class="trend-count">24.1K</div></div>
+      <div class="trend-card" onclick="t('Trending!')"><div class="trend-rank">02</div><div class="trend-body"><h4>#AIEngineering</h4><p>AI/ML · India Tech 2026</p></div><div class="trend-count">18.7K</div></div>
+      <div class="trend-card" onclick="t('Trending!')"><div class="trend-rank">03</div><div class="trend-body"><h4>#DevOpsTips</h4><p>Cloud · K8s · CI/CD</p></div><div class="trend-count">12.3K</div></div>
+    </div>
+
+    <!-- REELS -->
+    <div id="tp-reels" class="tp">
+      <div class="reels-top" style="margin:-0.85rem -0.85rem 0.85rem">
+        <div class="rcat active" onclick="rc(this)">ALL</div>
+        <div class="rcat" onclick="rc(this)">CLOUD</div>
+        <div class="rcat" onclick="rc(this)">AI/ML</div>
+        <div class="rcat" onclick="rc(this)">DEVOPS</div>
+        <div class="rcat" onclick="rc(this)">GCC</div>
+        <div class="rcat" onclick="rc(this)">SECURITY</div>
+        <div class="rcat" onclick="rc(this)">CAREER</div>
+      </div>
+      <div class="rg">
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#3D0000,#1A0000)">💻</div><div class="rt-views">48K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>FIX AWS LAMBDA COLD START</h4><p>@arjun_cloud</p></div></div><div class="rt-like">❤️ 4.2K</div></div>
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#2D0030,#1A0020)">🤖</div><div class="rt-views">124K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>BUILD RAG CHATBOT IN 10 MINS</h4><p>@priya_ai</p></div></div><div class="rt-like">❤️ 11K</div></div>
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#003D00,#001A00)">⚙️</div><div class="rt-views">89K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>K8S IMAGEPULLBACKOFF SOLVED</h4><p>@vikram_devops</p></div></div><div class="rt-like">❤️ 8.1K</div></div>
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#3D2000,#1A0E00)">🔐</div><div class="rt-views">67K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>ZERO TRUST SECURITY EXPLAINED</h4><p>@sec_ninja</p></div></div><div class="rt-like">❤️ 6.4K</div></div>
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#800000,#3D0000)">🚀</div><div class="rt-views">212K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>GCC VS OUTSOURCING · TRUTH</h4><p>@sk2_global</p></div></div><div class="rt-like">❤️ 19K</div></div>
+        <div class="rt" onclick="t('▶ Playing...')"><div class="rt-bg" style="background:linear-gradient(135deg,#001A3D,#000D20)">📊</div><div class="rt-views">95K</div><div class="rt-play">▶</div><div class="rt-ov"><div class="rt-info"><h4>SYSTEM DESIGN: WHATSAPP 30MIN</h4><p>@design_guru</p></div></div><div class="rt-like">❤️ 9.2K</div></div>
+      </div>
+    </div>
+
+    <!-- AI -->
+    <div id="tp-ai" class="tp" style="padding:0;display:none;flex-direction:column;height:calc(100vh - 119px)">
+      <div class="ai-header">
+        <div class="ai-av">🤖</div>
+        <div class="ai-inf">
+          <h3>SK² AI ENGINE</h3>
+          <p>⚡ ONLINE · CLAUDE POWERED · IT EXPERT</p>
+        </div>
+        <div class="ai-status"><div class="ai-dot"></div>LIVE</div>
+      </div>
+      <div class="chat-msgs" id="chatMsgs">
+        <div class="msg bot">⚡ <strong>SK² AI ENGINE ONLINE</strong><br/><br/>I am your robotic IT intelligence system. Ask me anything — <code>debugging</code>, <code>GCC setup</code>, <code>cloud architecture</code>, <code>career intel</code>, or <code>code fixes</code>.<br/><br/>What's your query, engineer?</div>
+      </div>
+      <div class="quick-qs">
+        <div class="qq" onclick="askQ('GCC cost in India?')">💰 GCC COST</div>
+        <div class="qq" onclick="askQ('AWS vs Azure vs GCP?')">☁️ CLOUD COMPARE</div>
+        <div class="qq" onclick="askQ('Fix React error')">🐛 FIX ERROR</div>
+        <div class="qq" onclick="askQ('Best IT career path 2026?')">🚀 CAREER INTEL</div>
+        <div class="qq" onclick="askQ('How to set up GCC?')">🏢 GCC SETUP</div>
+      </div>
+      <div class="chat-inp-row">
+        <input class="chat-inp" id="chatIn" placeholder="Query the AI engine..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+        <button class="send-btn" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div id="tp-search" class="tp">
+      <div class="fg" style="margin-bottom:0.85rem"><input placeholder="⌕  Search engineers, errors, companies, jobs..."/></div>
+      <div class="scats">
+        <div class="sc active" onclick="scat(this)">ALL</div>
+        <div class="sc" onclick="scat(this)">PEOPLE</div>
+        <div class="sc" onclick="scat(this)">REELS</div>
+        <div class="sc" onclick="scat(this)">COMPANIES</div>
+        <div class="sc" onclick="scat(this)">ERRORS</div>
+        <div class="sc" onclick="scat(this)">JOBS</div>
+        <div class="sc" onclick="scat(this)">GCC</div>
+      </div>
+      <div class="sr" onclick="t('Opening profile...')"><div class="sr-ico" style="background:rgba(30,58,95,0.8)">👤</div><div><h4>Arjun Reddy <span style="color:var(--gold);font-size:0.65rem;font-family:Orbitron,monospace"> ✓VERIFIED</span></h4><p>Sr. Cloud Architect · Google · Bengaluru</p><div class="sr-meta"><span class="srm">12.4K FOLLOWERS</span><span class="srm">AWS · GCP · K8S</span></div></div></div>
+      <div class="sr" onclick="t('Opening reel...')"><div class="sr-ico" style="background:rgba(61,26,95,0.8)">🎬</div><div><h4>Fix React useEffect memory leak</h4><p>Video · 8 min · @priya_ai</p><div class="sr-meta"><span class="srm">124K VIEWS</span><span class="srm">REACT · JS</span></div></div></div>
+      <div class="sr" onclick="t('Opening company...')"><div class="sr-ico" style="background:rgba(128,0,0,0.6)">🏢</div><div><h4>SK² Global Services</h4><p>GCC Advisory · Bengaluru · India</p><div class="sr-meta"><span class="srm">GCC SETUP</span><span class="srm">IT ADVISORY</span></div></div></div>
+      <div class="sr" onclick="t('Opening fix...')"><div class="sr-ico" style="background:rgba(239,68,68,0.2)">🐛</div><div><h4>TypeError: Cannot read property of undefined</h4><p>Error fix · JavaScript · Node.js · 5 solutions</p><div class="sr-meta"><span class="srm">3.2K SOLVED</span></div></div></div>
+      <div class="sr" onclick="t('Opening job...')"><div class="sr-ico" style="background:rgba(34,197,94,0.15)">💼</div><div><h4>Senior ML Engineer — GCC</h4><p>Amazon · Bengaluru · ₹45–65 LPA</p><div class="sr-meta"><span class="srm">POSTED 2D AGO</span><span class="srm">PYTHON · TF</span></div></div></div>
+    </div>
+
+    <!-- JOBS -->
+    <div id="tp-jobs" class="tp">
+      <div class="chip-line" style="margin:-0.85rem -0.85rem 0.85rem">
+        <div class="chip active" onclick="sc(this)">ALL JOBS</div>
+        <div class="chip" onclick="sc(this)">GCC ROLES</div>
+        <div class="chip" onclick="sc(this)">REMOTE</div>
+        <div class="chip" onclick="sc(this)">CLOUD</div>
+        <div class="chip" onclick="sc(this)">AI/ML</div>
+        <div class="chip" onclick="sc(this)">DEVOPS</div>
+      </div>
+      <div class="jcard" onclick="t('Opening job...')">
+        <div class="jcard-top"><div class="jlogo">☁️</div><div><div class="jtitle">Senior Cloud Architect</div><div class="jcompany">AMAZON WEB SERVICES</div><div class="jloc">📍 Bengaluru · GCC Role · Full-time</div></div></div>
+        <div class="jtags"><div class="jt">AWS</div><div class="jt">TERRAFORM</div><div class="jt">PYTHON</div><div class="jt">K8S</div><div class="jt">GCC</div></div>
+        <div class="jbottom"><div class="jsal">₹55–80 LPA</div><button class="japply" onclick="event.stopPropagation();t('Applied! ✅')">⚡ APPLY</button></div>
+      </div>
+      <div class="jcard" onclick="t('Opening job...')">
+        <div class="jcard-top"><div class="jlogo">🤖</div><div><div class="jtitle">ML Engineer — GCC India</div><div class="jcompany">MICROSOFT</div><div class="jloc">📍 Hyderabad · Hybrid</div></div></div>
+        <div class="jtags"><div class="jt">PYTHON</div><div class="jt">TENSORFLOW</div><div class="jt">AZURE.ML</div><div class="jt">PYTORCH</div></div>
+        <div class="jbottom"><div class="jsal">₹45–65 LPA</div><button class="japply" onclick="event.stopPropagation();t('Applied! ✅')">⚡ APPLY</button></div>
+      </div>
+      <div class="jcard" onclick="t('Opening job...')">
+        <div class="jcard-top"><div class="jlogo">🔐</div><div><div class="jtitle">Cybersecurity Lead</div><div class="jcompany">GOLDMAN SACHS GCC</div><div class="jloc">📍 Bengaluru · On-site</div></div></div>
+        <div class="jtags"><div class="jt">SIEM</div><div class="jt">ZERO TRUST</div><div class="jt">CISSP</div><div class="jt">SOC</div></div>
+        <div class="jbottom"><div class="jsal">₹60–90 LPA</div><button class="japply" onclick="event.stopPropagation();t('Applied! ✅')">⚡ APPLY</button></div>
+      </div>
+      <div class="jcard" onclick="t('Opening job...')">
+        <div class="jcard-top"><div class="jlogo">⚙️</div><div><div class="jtitle">DevOps Engineer</div><div class="jcompany">SK² GLOBAL SERVICES</div><div class="jloc">📍 Bengaluru · GCC Setup</div></div></div>
+        <div class="jtags"><div class="jt">DOCKER</div><div class="jt">K8S</div><div class="jt">CI/CD</div><div class="jt">GCP</div></div>
+        <div class="jbottom"><div class="jsal">₹25–40 LPA</div><button class="japply" onclick="event.stopPropagation();t('Applied! ✅')">⚡ APPLY</button></div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="tp-notifications" class="tp" style="padding:0">
+      <div style="padding:0.85rem 1rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:#FDF8F8">
+        <h3 style="font-family:Orbitron,monospace;font-size:0.85rem;font-weight:900;letter-spacing:1px;color:var(--gold)">⚡ NOTIFICATIONS</h3>
+        <span style="font-size:0.62rem;color:var(--gold);cursor:pointer;font-family:Orbitron,monospace;letter-spacing:0.5px" onclick="t('All read ✓')">MARK ALL READ</span>
+      </div>
+      <div class="ni-item unread"><div class="ni-av" style="background:#1E3A5F">AR</div><div class="ni-body"><p><strong>Arjun Reddy</strong> liked your post about GCC cost savings</p><div class="ni-time">2 MIN AGO</div></div><div style="font-size:1rem">❤️</div><div class="udot"></div></div>
+      <div class="ni-item unread"><div class="ni-av" style="background:#3D1A5F">PS</div><div class="ni-body"><p><strong>Priya Sharma</strong> started following you on SK² Network</p><div class="ni-time">15 MIN AGO</div></div><div style="font-size:1rem">👤</div><div class="udot"></div></div>
+      <div class="ni-item unread"><div class="ni-av" style="background:var(--m)">SK</div><div class="ni-body"><p><strong>SK² AI Engine</strong> — Your GCC cost model is ready for download</p><div class="ni-time">1 HOUR AGO</div></div><div style="font-size:1rem">📄</div><div class="udot"></div></div>
+      <div class="ni-item"><div class="ni-av" style="background:#1A3D1A">VK</div><div class="ni-body"><p><strong>Vikram Kumar</strong> commented: "This fix saved my entire sprint!"</p><div class="ni-time">3 HOURS AGO</div></div><div style="font-size:1rem">💬</div></div>
+      <div class="ni-item"><div class="ni-av" style="background:#3D0000">TN</div><div class="ni-body"><p><strong>TechNews India</strong> mentioned you in GCC 2026 trends article</p><div class="ni-time">5 HOURS AGO</div></div><div style="font-size:1rem">📢</div></div>
+      <div class="ni-item"><div class="ni-av" style="background:#5F3D00">AW</div><div class="ni-body"><p><strong>AWS India</strong> — You're invited to exclusive GCC webinar</p><div class="ni-time">YESTERDAY</div></div><div style="font-size:1rem">🎯</div></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div id="tp-profile" class="tp" style="padding:0">
+      <div class="prof-cover"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;padding-right:1rem">
+        <div class="prof-av-wrap">
+          <div class="prof-av">SK²</div>
+          <div class="prof-vbadge">✓</div>
+        </div>
+        <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem">
+          <button style="padding:0.35rem 0.85rem;border:1px solid var(--border);border-radius:20px;font-size:0.65rem;font-weight:700;color:var(--white);cursor:pointer;background:transparent;font-family:Orbitron,monospace;letter-spacing:0.5px" onclick="t('Settings...')">⚙ CONFIG</button>
+          <button style="padding:0.35rem 0.85rem;border:1px solid var(--m);border-radius:20px;font-size:0.65rem;font-weight:700;color:var(--gold);cursor:pointer;background:rgba(128,0,0,0.2);font-family:Orbitron,monospace;letter-spacing:0.5px" onclick="t('Editing...')">✏ EDIT</button>
+        </div>
+      </div>
+      <div class="prof-info">
+        <h2>SK SQUARE GLOBAL <span style="color:var(--gold)">✓</span></h2>
+        <div class="handle">@SK2_GLOBAL · GCC.ADVISORY.NETWORK</div>
+        <div class="bio">Helping US · UK · SG companies build Global Capability Centers in Bengaluru 🇮🇳 | 60% cost savings | IT-led advisory | Global Capability Advisory</div>
+        <div style="display:flex;gap:0.85rem;margin-top:0.65rem;font-size:0.65rem;color:var(--gray);font-family:Orbitron,monospace">
+          <span>📍 BENGALURU</span><span>🌐 SK2SQUARE.COM</span><span>📅 EST.2026</span>
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div class="ps"><div class="n">4.2K</div><div class="l">POSTS</div></div>
+        <div class="ps"><div class="n">48.6K</div><div class="l">NETWORK</div></div>
+        <div class="ps"><div class="n">1.2K</div><div class="l">LINKED</div></div>
+        <div class="ps"><div class="n">312</div><div class="l">REELS</div></div>
+      </div>
+      <div class="prof-section">
+        <div class="psec-title">⚡ SKILLS MATRIX</div>
+        <span class="skill-pill">GCC.SETUP</span><span class="skill-pill">IT.ADVISORY</span><span class="skill-pill">TALENT.ACQ</span><span class="skill-pill">ENTITY.SETUP</span><span class="skill-pill">CLOUD</span><span class="skill-pill">AI/ML</span><span class="skill-pill">BENGALURU</span>
+      </div>
+      <div class="prof-section">
+        <div class="psec-title">🏢 EXPERIENCE LOG</div>
+        <div class="exp-item"><div class="exp-logo">🏢</div><div><div class="exp-title">Founder & GCC Advisory Lead</div><div class="exp-company">SK² GLOBAL SERVICES</div><div class="exp-dur">2026 → PRESENT · BENGALURU</div></div></div>
+        <div class="exp-item"><div class="exp-logo">💻</div><div><div class="exp-title">Senior IT Consultant</div><div class="exp-company">PREV COMPANY</div><div class="exp-dur">2020 → 2026 · BENGALURU</div></div></div>
+      </div>
+      <div class="prof-section">
+        <div class="psec-title">💰 SPONSOR SK² NETWORK</div>
+        <div style="background:linear-gradient(135deg,rgba(128,0,0,0.2),rgba(128,0,0,0.08));border:1px solid rgba(128,0,0,0.4);border-radius:10px;padding:0.85rem">
+          <div style="font-family:Orbitron,monospace;font-size:0.82rem;font-weight:700;margin-bottom:0.3rem;color:var(--gold)">ADVERTISE TO 48K+ IT PROS</div>
+          <div style="font-size:0.78rem;color:var(--gray);margin-bottom:0.65rem;line-height:1.65">Reach India's top engineers in Bengaluru & globally. Sponsor feed posts, reels, job alerts.</div>
+          <button class="btn-m" style="font-size:0.72rem;padding:0.6rem" onclick="t('Opening sponsor portal...')">⚡ BECOME SPONSOR →</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bnav">
+    <div class="ni active" onclick="swt('feed')" id="nb-feed"><div class="ico">🏠</div><div class="lbl">FEED</div></div>
+    <div class="ni" onclick="swt('reels')" id="nb-reels"><div class="ico">🎬</div><div class="lbl">REELS</div></div>
+    <div class="ni" onclick="swt('ai')" id="nb-ai"><div class="ico">🤖</div><div class="lbl">AI</div></div>
+    <div class="ni" onclick="swt('jobs')" id="nb-jobs"><div class="ico">💼</div><div class="lbl">JOBS</div></div>
+    <div class="ni" onclick="swt('profile')" id="nb-profile"><div class="ico">👤</div><div class="lbl">PROFILE</div></div>
+  </div>
+</div>
+
+<!-- Post Modal -->
+<div id="pmo" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;display:none;align-items:flex-end" onclick="this.style.display='none'">
+  <div style="background:#FDF8F8;border-radius:20px 20px 0 0;width:100%;padding:1.25rem;border-top:1px solid var(--border)" onclick="event.stopPropagation()">
+    <div style="width:32px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 1rem"></div>
+    <div style="font-family:Orbitron,monospace;font-size:0.85rem;font-weight:700;color:var(--gold);letter-spacing:1px;margin-bottom:0.9rem">⚡ CREATE POST</div>
+    <div class="fg"><label>Post Type</label><select><option>📡 Intelligence Post</option><option>💻 Code Snippet</option><option>🎬 Reel / Video</option><option>❓ IT Query</option><option>📊 Poll</option></select></div>
+    <div class="fg"><label>Content</label><textarea style="width:100%;background:#FFFFFF;border:1px solid var(--border);border-radius:8px;padding:0.8rem;color:var(--white);font-family:Inter,sans-serif;font-size:0.875rem;outline:none;resize:none;height:90px" placeholder="Share your IT intelligence..."></textarea></div>
+    <div class="fg"><label>Tags</label><input placeholder="#React #AWS #GCC #DevOps"/></div>
+    <button class="btn-m" style="margin-top:0.5rem" onclick="document.getElementById('pmo').style.display='none';t('⚡ Post published!')">⚡ BROADCAST →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+setTimeout(()=>{
+  document.getElementById('splash').classList.remove('active');
+  document.getElementById('auth').classList.add('active');
+},3000);
+
+function sat(x){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',(x==='l'&&i===0)||(x==='r'&&i===1)));
+  document.getElementById('lf').style.display=x==='l'?'block':'none';
+  document.getElementById('rf').style.display=x==='r'?'block':'none';
+}
+
+function goApp(){
+  document.getElementById('auth').classList.remove('active');
+  document.getElementById('app').classList.add('active');
+}
+
+function swt(tab){
+  document.querySelectorAll('.tp').forEach(p=>{p.classList.remove('active');p.style.display='none';});
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const p=document.getElementById('tp-'+tab);
+  if(p){p.style.display=tab==='ai'?'flex':'block';p.classList.add('active');}
+  const nb=document.getElementById('nb-'+tab);
+  if(nb)nb.classList.add('active');
+}
+
+function sc(el){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');t('⚡ Filter: '+el.textContent);}
+function rc(el){document.querySelectorAll('.rcat').forEach(r=>r.classList.remove('active'));el.classList.add('active');}
+function scat(el){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('active'));el.classList.add('active');}
+function flw(el){el.classList.toggle('following');el.textContent=el.classList.contains('following')?'✓ LINKED':'+ FOLLOW';t(el.classList.contains('following')?'⚡ Linked!':'Unlinked');}
+function lk(el){el.classList.toggle('liked');const n=parseInt(el.textContent.replace(/[^0-9.K]/g,''))||100;el.innerHTML=el.classList.contains('liked')?`❤️ ${n+1}`:`❤️ ${n}`;}
+function sv(el){el.classList.toggle('saved');t(el.classList.contains('saved')?'⚡ Saved!':'Removed');}
+function opm(){document.getElementById('pmo').style.display='flex';}
+
+function t(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+const aiR={
+  'gcc cost':'💰 PILOT GCC COST ANALYSIS:\n\n• Setup (one-time): ₹35–65L\n• Annual ops (15 people): ₹2.65–4 Cr\n• Per engineer/year: ₹17–26L\n\nVs US equivalent: $2.85M/year\nIndia GCC: $490K/year\n\nSAVING: $2.36M annually\nBreakeven: 18–24 months\n\nSK² handles full setup. DM for cost model.',
+  'gcc':'🏢 GCC = Global Capability Center\n\nYOUR subsidiary in India — not outsourcing.\n\n✅ Full IP ownership\n✅ Your employees, your culture\n✅ 60% cost savings vs US/UK\n✅ 8–12 weeks to operational\n✅ Bengaluru: 875+ GCCs already running\n\nSK² sets up your GCC end-to-end.',
+  'aws':'☁️ CLOUD INTEL:\n\nAWS → Market leader, most services, best for enterprise GCC, deepest India presence\n\nAZURE → Best for Microsoft shops, strongest AI/ML with OpenAI integration\n\nGCP → Best for data/ML, BigQuery is unmatched, cost-competitive\n\nFor GCC India: AWS + Azure have deepest Bengaluru roots.',
+  'react':'⚛️ REACT FIXES:\n\n• Memory leak → cleanup useEffect return\n• Infinite loop → fix useEffect deps array\n• Stale state → functional setState\n• Slow renders → React.memo + useMemo\n• Re-render storm → useCallback on handlers\n\nWhat specific error code do you have? Paste it.',
+  'career':'🚀 IT CAREER INTEL 2026:\n\n1. AI/ML Engineer → ₹25–80 LPA\n2. Cloud Architect → ₹30–90 LPA\n3. DevSecOps → ₹20–60 LPA\n4. GCC Advisor → ₹40–120 LPA\n5. Platform Engineer → ₹25–70 LPA\n\nGCC roles pay 20–30% premium over non-GCC for same skills.',
+  'kubernetes':'⚙️ K8S FIXES:\n\n• ImagePullBackOff → registry creds expired\n• CrashLoopBackOff → kubectl logs pod-name\n• Pending → check resource limits/node capacity\n• OOMKilled → increase memory in manifest\n• Evicted → check node disk/memory pressure\n\nkubectl describe pod <name> = your best friend.',
+  'default':'🤖 SK² AI ENGINE READY\n\nI specialise in:\n\n⚡ IT debugging & code fixes\n🏢 GCC setup & India expansion\n☁️ Cloud architecture (AWS/Azure/GCP)\n🚀 Career intelligence for IT pros\n⚙️ DevOps, AI/ML, Security\n💰 Cost modelling & ROI analysis\n\nQuery me with more detail for precision intel.'
+};
+
+function getR(msg){
+  msg=msg.toLowerCase();
+  if(msg.includes('gcc')&&msg.includes('cost'))return aiR['gcc cost'];
+  if(msg.includes('gcc'))return aiR['gcc'];
+  if(msg.includes('aws')||msg.includes('azure')||msg.includes('gcp')||msg.includes('cloud'))return aiR['aws'];
+  if(msg.includes('react')||msg.includes('javascript'))return aiR['react'];
+  if(msg.includes('career')||msg.includes('job')||msg.includes('salary'))return aiR['career'];
+  if(msg.includes('kubernetes')||msg.includes('k8s')||msg.includes('docker'))return aiR['kubernetes'];
+  return aiR['default'];
+}
+
+function addMsg(text,type){
+  const c=document.getElementById('chatMsgs');
+  const d=document.createElement('div');
+  d.className='msg '+type;
+  d.innerHTML=text.replace(/\n/g,'<br/>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+
+function sendMsg(){
+  const inp=document.getElementById('chatIn');
+  const msg=inp.value.trim();if(!msg)return;
+  inp.value='';addMsg(msg,'user');
+  const ty=document.createElement('div');ty.className='typing';
+  ty.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';
+  document.getElementById('chatMsgs').appendChild(ty);
+  document.getElementById('chatMsgs').scrollTop=9999;
+  setTimeout(()=>{ty.remove();addMsg(getR(msg),'bot');},1200);
+}
+
+function askQ(q){
+  swt('ai');
+  setTimeout(()=>{document.getElementById('chatIn').value=q;sendMsg();},100);
+}
+
+document.querySelectorAll('.tp').forEach(p=>p.style.display='none');
+document.getElementById('tp-feed').style.display='block';
+document.getElementById('tp-feed').classList.add('active');
+</script>
+</body>
+</html>
