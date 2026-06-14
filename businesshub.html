@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SK² Business Hub — B2B Trade Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#040608;--s1:#0C0F14;--s2:#111620;--s3:#161C28;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --gold:#C8973A;--gold-lt:#E8C96A;--gdim:rgba(200,151,58,0.1);
+  --white:#fff;--gray:#6B7280;--gray2:#9CA3AF;
+  --green:#22C55E;--blue:#3B82F6;--red:#EF4444;
+  --purple:#8B5CF6;--orange:#F59E0B;--cyan:#06B6D4;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;overflow-x:hidden}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* SPLASH */
+#splash{align-items:center;justify-content:center;gap:1rem;background:var(--bg)}
+.sp-logo{width:100px;height:100px;background:var(--white);border-radius:22px;display:grid;place-items:center;font-weight:800;font-size:2rem;color:var(--bg);animation:glow 2s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(200,151,58,0.5)}50%{box-shadow:0 0 30px 10px rgba(200,151,58,0.15)}}
+.sp-title{font-size:2rem;font-weight:800;letter-spacing:-1px}
+.sp-title span{color:var(--gold)}
+.sp-sub{font-size:0.78rem;color:var(--gray2);letter-spacing:3px;text-transform:uppercase}
+.sp-tag{font-size:0.72rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-top:0.25rem}
+.sp-bar{width:180px;height:2px;background:var(--s2);border-radius:1px;margin-top:1.5rem;overflow:hidden}
+.sp-prog{height:100%;background:var(--gold);animation:prog 2.8s ease forwards}
+@keyframes prog{0%{width:0}100%{width:100%}}
+
+/* AUTH */
+#auth{align-items:center;justify-content:center;padding:1.5rem;background:radial-gradient(ellipse at 30% 50%,rgba(200,151,58,0.05),transparent 60%)}
+.auth-box{width:100%;max-width:440px;background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:2rem}
+.auth-logo{text-align:center;margin-bottom:1.75rem}
+.auth-logo .m{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;background:var(--white);border-radius:12px;font-weight:800;font-size:1.2rem;color:var(--bg);margin-bottom:0.75rem}
+.auth-logo h1{font-size:1.4rem;font-weight:800}
+.auth-logo h1 span{color:var(--gold)}
+.auth-logo p{font-size:0.7rem;color:var(--gray2);letter-spacing:2.5px;text-transform:uppercase;margin-top:0.25rem}
+.tabs{display:flex;background:var(--s2);border-radius:10px;padding:3px;margin-bottom:1.25rem}
+.tab{flex:1;padding:0.55rem;text-align:center;border-radius:8px;cursor:pointer;font-size:0.82rem;font-weight:600;color:var(--gray2);transition:all 0.2s}
+.tab.on{background:var(--gold);color:var(--bg)}
+.fg{margin-bottom:0.85rem}
+.fg label{display:block;font-size:0.68rem;font-weight:700;color:var(--gray2);margin-bottom:0.35rem;letter-spacing:0.5px;text-transform:uppercase}
+.fg input,.fg select{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:0.72rem 0.9rem;color:var(--white);font-family:'Inter',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s}
+.fg input:focus,.fg select:focus{border-color:var(--gold)}
+.fg select option{background:var(--s2)}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.btn{width:100%;border:none;padding:0.82rem;border-radius:8px;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;margin-top:0.35rem}
+.btn-g{background:var(--gold);color:var(--bg)}
+.btn-g:hover{background:var(--gold-lt)}
+.btn-o{background:var(--s2);color:var(--white);border:1px solid var(--border);margin-top:0.5rem}
+.div{text-align:center;color:var(--gray);font-size:0.75rem;margin:0.75rem 0;position:relative}
+.div::before,.div::after{content:'';position:absolute;top:50%;width:44%;height:1px;background:var(--border)}
+.div::before{left:0}.div::after{right:0}
+
+/* APP SHELL */
+#app{flex-direction:row;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:220px;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto}
+.sb-logo{padding:1.25rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.65rem}
+.sb-mark{width:36px;height:36px;background:var(--white);border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:0.8rem;color:var(--bg);flex-shrink:0}
+.sb-name{font-size:0.82rem;font-weight:800;line-height:1.2}
+.sb-name span{color:var(--gold)}
+.sb-tag{font-size:0.58rem;color:var(--gray2);letter-spacing:1px;text-transform:uppercase}
+.sb-section{padding:0.85rem 0.75rem 0.25rem}
+.sb-section-label{font-size:0.6rem;font-weight:700;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:0.5rem}
+.sb-item{display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.65rem;border-radius:8px;cursor:pointer;transition:all 0.15s;margin-bottom:0.15rem;color:var(--gray2);font-size:0.82rem;font-weight:500}
+.sb-item:hover{background:var(--s2);color:var(--white)}
+.sb-item.active{background:var(--gdim);color:var(--gold);border:1px solid rgba(200,151,58,0.15)}
+.sb-item .ico{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.sb-badge{margin-left:auto;background:var(--gold);color:var(--bg);border-radius:10px;padding:0.1rem 0.45rem;font-size:0.62rem;font-weight:700}
+.sb-bottom{margin-top:auto;padding:0.85rem;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:0.6rem}
+.sb-av{width:32px;height:32px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-weight:800;font-size:0.72rem;color:var(--bg);flex-shrink:0}
+.sb-uname{font-size:0.78rem;font-weight:600}
+.sb-urole{font-size:0.65rem;color:var(--gray2)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--s1);border-bottom:1px solid var(--border);padding:0.75rem 1.25rem;display:flex;align-items:center;gap:0.75rem;flex-shrink:0}
+.tb-title{font-size:1rem;font-weight:800;flex:1}
+.tb-search{flex:1;max-width:320px;position:relative}
+.tb-search input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:0.45rem 0.9rem 0.45rem 2rem;color:var(--white);font-size:0.82rem;outline:none;font-family:'Inter',sans-serif}
+.tb-search::before{content:'⌕';position:absolute;left:0.65rem;top:50%;transform:translateY(-50%);font-size:1rem;color:var(--gray)}
+.tb-right{display:flex;gap:0.5rem;align-items:center}
+.ib{width:34px;height:34px;border-radius:50%;background:var(--s2);border:1px solid var(--border);display:grid;place-items:center;cursor:pointer;font-size:0.85rem;position:relative}
+.ib:hover{background:var(--s3)}
+.ndot{position:absolute;top:3px;right:3px;width:7px;height:7px;background:var(--gold);border-radius:50%;border:2px solid var(--s1)}
+.tb-av{width:32px;height:32px;border-radius:50%;background:var(--gold);display:grid;place-items:center;font-weight:800;font-size:0.72rem;color:var(--bg);cursor:pointer;border:2px solid var(--gold)}
+
+.content{flex:1;overflow-y:auto;padding:1.25rem}
+.panel{display:none}
+.panel.active{display:block}
+
+/* CARDS & GRIDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.25rem}
+.stat-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.stat-card:hover{border-color:rgba(200,151,58,0.25)}
+.sc-icon{font-size:1.5rem;margin-bottom:0.5rem}
+.sc-val{font-size:1.6rem;font-weight:800;line-height:1}
+.sc-label{font-size:0.72rem;color:var(--gray2);margin-top:0.25rem}
+.sc-change{font-size:0.72rem;font-weight:600;margin-top:0.35rem}
+.sc-change.up{color:var(--green)}
+.sc-change.down{color:var(--red)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+.card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem}
+.card-title{font-size:0.78rem;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.85rem;display:flex;align-items:center;justify-content:space-between}
+.card-title .see-all{font-size:0.7rem;color:var(--gray2);cursor:pointer;letter-spacing:0;text-transform:none;font-weight:500}
+.card-title .see-all:hover{color:var(--gold)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:0.82rem}
+.tbl th{text-align:left;padding:0.55rem 0.75rem;font-size:0.68rem;font-weight:700;color:var(--gray);letter-spacing:0.5px;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.tbl td{padding:0.65rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
+.tbl tr:hover td{background:rgba(255,255,255,0.02)}
+.tbl tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:0.2rem 0.55rem;border-radius:20px;font-size:0.68rem;font-weight:600}
+.badge-g{background:rgba(34,197,94,0.12);color:var(--green)}
+.badge-y{background:rgba(245,158,11,0.12);color:var(--orange)}
+.badge-r{background:rgba(239,68,68,0.12);color:var(--red)}
+.badge-b{background:rgba(59,130,246,0.12);color:var(--blue)}
+.badge-p{background:rgba(139,92,246,0.12);color:var(--purple)}
+.badge-c{background:rgba(6,182,212,0.12);color:var(--cyan)}
+
+/* PROGRESS BAR */
+.prog-bar{background:var(--s2);border-radius:4px;height:6px;overflow:hidden;margin-top:0.5rem}
+.prog-fill{height:100%;border-radius:4px;background:var(--gold)}
+
+/* AI CHAT */
+.ai-panel{display:flex;flex-direction:column;height:calc(100vh - 130px)}
+.ai-head{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:0.85rem;display:flex;gap:0.75rem;align-items:center;margin-bottom:0.85rem}
+.ai-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-lt));display:grid;place-items:center;font-size:1.1rem;flex-shrink:0}
+.ai-inf h3{font-size:0.9rem;font-weight:700}
+.ai-inf p{font-size:0.72rem;color:var(--green)}
+.ai-status{margin-left:auto;display:flex;align-items:center;gap:0.35rem;font-size:0.72rem;color:var(--green)}
+.ai-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.chat-wrap{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;overflow:hidden}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.65rem}
+.msg{max-width:80%;padding:0.7rem 0.9rem;border-radius:12px;font-size:0.845rem;line-height:1.65}
+.msg.bot{background:var(--s2);border:1px solid var(--border);border-radius:12px 12px 12px 4px;align-self:flex-start}
+.msg.user{background:var(--gold);color:var(--bg);border-radius:12px 12px 4px 12px;align-self:flex-end;font-weight:500}
+.msg.bot code{background:rgba(255,255,255,0.08);padding:0.1rem 0.3rem;border-radius:4px;font-size:0.78rem;font-family:monospace}
+.typing{display:flex;gap:4px;padding:0.55rem 0.8rem;background:var(--s2);border:1px solid var(--border);border-radius:12px;width:fit-content;align-self:flex-start}
+.td{width:7px;height:7px;border-radius:50%;background:var(--gray2);animation:bounce 1.2s infinite}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.chat-bottom{padding:0.75rem;border-top:1px solid var(--border)}
+.quick-qs{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.65rem}
+.qq{padding:0.3rem 0.7rem;border:1px solid rgba(200,151,58,0.25);border-radius:20px;font-size:0.72rem;color:var(--gold);cursor:pointer;background:var(--gdim);transition:all 0.15s;white-space:nowrap}
+.qq:hover{background:rgba(200,151,58,0.2)}
+.chat-inp-row{display:flex;gap:0.5rem}
+.chat-inp{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:0.6rem 1rem;color:var(--white);font-family:'Inter',sans-serif;font-size:0.875rem;outline:none}
+.chat-inp:focus{border-color:rgba(200,151,58,0.4)}
+.send-btn{width:38px;height:38px;background:var(--gold);border:none;border-radius:50%;display:grid;place-items:center;cursor:pointer;font-size:0.9rem;flex-shrink:0}
+.send-btn:hover{background:var(--gold-lt)}
+
+/* VENDOR CARDS */
+.vendor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.vc{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem;cursor:pointer;transition:border-color 0.2s}
+.vc:hover{border-color:rgba(200,151,58,0.3)}
+.vc-head{display:flex;gap:0.65rem;align-items:flex-start;margin-bottom:0.75rem}
+.vc-logo{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.3rem;flex-shrink:0}
+.vc-name{font-size:0.875rem;font-weight:700}
+.vc-type{font-size:0.7rem;color:var(--gold);margin-top:1px}
+.vc-loc{font-size:0.7rem;color:var(--gray2);margin-top:1px}
+.vc-stats{display:flex;gap:0.75rem;margin-bottom:0.75rem}
+.vcs{text-align:center}
+.vcs .n{font-size:0.9rem;font-weight:700}
+.vcs .l{font-size:0.62rem;color:var(--gray2)}
+.vc-tags{display:flex;flex-wrap:wrap;gap:0.3rem}
+.vtag{background:var(--s2);border-radius:4px;padding:0.18rem 0.5rem;font-size:0.68rem;color:var(--gray2)}
+.vc-actions{display:flex;gap:0.5rem;margin-top:0.75rem}
+.vca{flex:1;padding:0.38rem;border-radius:6px;font-size:0.72rem;font-weight:600;cursor:pointer;text-align:center;border:1px solid var(--border);color:var(--gray2);background:none;font-family:'Inter',sans-serif;transition:all 0.15s}
+.vca:hover{border-color:var(--gold);color:var(--gold)}
+.vca.primary{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.vca.primary:hover{background:var(--gold-lt)}
+
+/* PRODUCT CARDS */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.prod-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color 0.2s}
+.prod-card:hover{border-color:rgba(200,151,58,0.3)}
+.prod-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;background:var(--s2)}
+.prod-body{padding:0.75rem}
+.prod-name{font-size:0.82rem;font-weight:700;margin-bottom:0.2rem}
+.prod-mfr{font-size:0.7rem;color:var(--gray2)}
+.prod-price{font-size:0.9rem;font-weight:800;color:var(--gold);margin-top:0.4rem}
+.prod-moq{font-size:0.68rem;color:var(--gray2)}
+.prod-stock{display:flex;align-items:center;gap:0.35rem;margin-top:0.5rem;font-size:0.7rem}
+
+/* CHART BARS */
+.chart-bars{display:flex;gap:0.5rem;align-items:flex-end;height:120px;padding-top:1rem}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.35rem}
+.bar{width:100%;background:var(--gold);border-radius:4px 4px 0 0;transition:height 0.5s;opacity:0.8}
+.bar:hover{opacity:1}
+.bar-label{font-size:0.62rem;color:var(--gray2);text-align:center}
+.bar-val{font-size:0.65rem;font-weight:600;color:var(--gold)}
+
+/* IMPORT EXPORT */
+.ie-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:0.75rem;display:flex;gap:0.85rem;align-items:center}
+.ie-flag{font-size:1.8rem;flex-shrink:0}
+.ie-body{flex:1}
+.ie-title{font-size:0.875rem;font-weight:700}
+.ie-detail{font-size:0.75rem;color:var(--gray2);margin-top:2px}
+.ie-val{text-align:right}
+.ie-amount{font-size:1rem;font-weight:800;color:var(--green)}
+.ie-date{font-size:0.68rem;color:var(--gray2);margin-top:2px}
+.ie-type{font-size:0.65rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:10px;margin-top:0.35rem;display:inline-block}
+.ie-exp{background:rgba(34,197,94,0.12);color:var(--green)}
+.ie-imp{background:rgba(59,130,246,0.12);color:var(--blue)}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+.form-group{display:flex;flex-direction:column;gap:0.35rem}
+.form-group label{font-size:0.68rem;font-weight:700;color:var(--gray2);letter-spacing:0.5px;text-transform:uppercase}
+.form-group input,.form-group select,.form-group textarea{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:0.65rem 0.85rem;color:var(--white);font-family:'Inter',sans-serif;font-size:0.875rem;outline:none;transition:border-color 0.2s}
+.form-group input:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group select option{background:var(--s2)}
+.form-group textarea{resize:vertical;min-height:80px}
+.btn-sm{padding:0.5rem 1.1rem;border-radius:7px;font-size:0.8rem;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all 0.2s}
+.btn-gold{background:var(--gold);color:var(--bg)}
+.btn-gold:hover{background:var(--gold-lt)}
+.btn-outline{background:none;border:1px solid var(--border);color:var(--gray2)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--s2);border:1px solid var(--border2);border-radius:10px;padding:0.65rem 1.1rem;font-size:0.82rem;font-weight:500;opacity:0;transition:all 0.25s;z-index:500;pointer-events:none}
+.toast.show{opacity:1}
+.toast.success{border-color:rgba(34,197,94,0.4);color:var(--green)}
+.toast.info{border-color:rgba(200,151,58,0.4);color:var(--gold)}
+
+/* MOBILE SIDEBAR TOGGLE */
+.mob-menu{display:none;width:34px;height:34px;background:var(--s2);border:1px solid var(--border);border-radius:8px;place-items:center;cursor:pointer;font-size:1.1rem;flex-shrink:0}
+
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-220px;top:0;bottom:0;z-index:200;transition:left 0.3s}
+  .sidebar.open{left:0}
+  .mob-menu{display:grid}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr}
+  .vendor-grid{grid-template-columns:1fr}
+  .prod-grid{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" class="screen active">
+  <div class="sp-logo">SK²</div>
+  <div class="sp-title">SK² <span>Business Hub</span></div>
+  <div class="sp-sub">B2B Trade Platform</div>
+  <div class="sp-tag">AI-Powered · Import · Export · India</div>
+  <div class="sp-bar"><div class="sp-prog"></div></div>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="screen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <div class="m">SK²</div>
+      <h1>SK² <span>Business Hub</span></h1>
+      <p>B2B Trade Platform · hub.sk2square.com</p>
+    </div>
+    <div class="tabs">
+      <div class="tab on" onclick="sat('login')">Sign In</div>
+      <div class="tab" onclick="sat('reg')">Register Business</div>
+    </div>
+    <div id="lf">
+      <div class="fg"><label>Business Email</label><input type="email" placeholder="you@business.com"/></div>
+      <div class="fg"><label>Password</label><input type="password" placeholder="••••••••"/></div>
+      <button class="btn btn-g" onclick="goApp()">Sign In →</button>
+      <div class="div">or</div>
+      <button class="btn btn-o" onclick="goApp()">🔗 Continue with Google</button>
+    </div>
+    <div id="rf" style="display:none">
+      <div class="fg-row">
+        <div class="fg"><label>Company Name</label><input placeholder="ABC Manufacturing"/></div>
+        <div class="fg"><label>GST Number</label><input placeholder="27AAPFU0939F1ZV"/></div>
+      </div>
+      <div class="fg-row">
+        <div class="fg"><label>Business Type</label>
+          <select>
+            <option>Manufacturer</option><option>Distributor</option>
+            <option>Exporter</option><option>Importer</option>
+            <option>Wholesaler</option><option>Retailer</option>
+          </select>
+        </div>
+        <div class="fg"><label>Industry</label>
+          <select>
+            <option>Kitchen & Cutlery</option><option>Textiles</option>
+            <option>Electronics</option><option>Chemicals</option>
+            <option>Pharmaceuticals</option><option>Auto Parts</option>
+            <option>Agri Products</option><option>Handicrafts</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg"><label>Contact Email</label><input type="email" placeholder="business@company.com"/></div>
+      <div class="fg"><label>IEC Code (Import Export)</label><input placeholder="AABCS1234M"/></div>
+      <button class="btn btn-g" onclick="goApp()">Register Business →</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="screen" style="flex-direction:row">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-mark">SK²</div>
+      <div><div class="sb-name">SK² <span>Hub</span></div><div class="sb-tag">B2B Platform</div></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-label">Main</div>
+      <div class="sb-item active" onclick="sw('dashboard')"><span class="ico">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="sw('vendors')"><span class="ico">🤝</span>Vendors & Buyers<span class="sb-badge">24</span></div>
+      <div class="sb-item" onclick="sw('products')"><span class="ico">📦</span>Products</div>
+      <div class="sb-item" onclick="sw('orders')"><span class="ico">🛒</span>Orders<span class="sb-badge">8</span></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-label">Operations</div>
+      <div class="sb-item" onclick="sw('inventory')"><span class="ico">🏭</span>Inventory</div>
+      <div class="sb-item" onclick="sw('transport')"><span class="ico">🚚</span>Transport</div>
+      <div class="sb-item" onclick="sw('finance')"><span class="ico">💰</span>Finance</div>
+      <div class="sb-item" onclick="sw('importexport')"><span class="ico">🌍</span>Import / Export</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-label">Growth</div>
+      <div class="sb-item" onclick="sw('crm')"><span class="ico">👥</span>CRM</div>
+      <div class="sb-item" onclick="sw('marketing')"><span class="ico">📢</span>AI Marketing</div>
+      <div class="sb-item" onclick="sw('ai')"><span class="ico">🤖</span>AI Assistant</div>
+      <div class="sb-item" onclick="sw('analytics')"><span class="ico">📈</span>Analytics</div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-section-label">Account</div>
+      <div class="sb-item" onclick="sw('settings')"><span class="ico">⚙️</span>Settings</div>
+      <div class="sb-item" onclick="toast('Logging out...','info');setTimeout(()=>{document.getElementById(\'app\').classList.remove(\'active\');document.getElementById(\'auth\').classList.add(\'active\')},1000)"><span class="ico">🚪</span>Logout</div>
+    </div>
+
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-av">SK</div>
+        <div>
+          <div class="sb-uname">SK² Global</div>
+          <div class="sb-urole">Manufacturer · Bengaluru</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <div class="topbar">
+      <div class="mob-menu" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</div>
+      <div class="tb-title" id="page-title">Dashboard</div>
+      <div class="tb-search"><input placeholder="Search products, vendors, orders..."/></div>
+      <div class="tb-right">
+        <div class="ib" onclick="toast('3 new notifications','info')">🔔<div class="ndot"></div></div>
+        <div class="ib" onclick="toast('Messages','info')">💬<div class="ndot"></div></div>
+        <div class="tb-av">SK</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div id="p-dashboard" class="panel active">
+        <!-- Welcome -->
+        <div style="background:linear-gradient(135deg,rgba(200,151,58,0.12),rgba(200,151,58,0.04));border:1px solid rgba(200,151,58,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:1rem;font-weight:800">Good morning, SK² Global 👋</div>
+            <div style="font-size:0.8rem;color:var(--gray2);margin-top:0.25rem">You have 8 pending orders and 3 new buyer inquiries today</div>
+          </div>
+          <button class="btn-sm btn-gold" onclick="sw('orders')">View Orders →</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="sc-icon">💰</div>
+            <div class="sc-val">₹48.6L</div>
+            <div class="sc-label">Revenue This Month</div>
+            <div class="sc-change up">↑ 18.4% vs last month</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">🛒</div>
+            <div class="sc-val">284</div>
+            <div class="sc-label">Active Orders</div>
+            <div class="sc-change up">↑ 32 new this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">🌍</div>
+            <div class="sc-val">₹22.1L</div>
+            <div class="sc-label">Export Revenue</div>
+            <div class="sc-change up">↑ 24% vs last month</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon">🏭</div>
+            <div class="sc-val">1,840</div>
+            <div class="sc-label">Stock Units</div>
+            <div class="sc-change down">↓ 12% (reorder needed)</div>
+          </div>
+        </div>
+
+        <div class="grid2">
+          <!-- Revenue Chart -->
+          <div class="card">
+            <div class="card-title">Monthly Revenue <span class="see-all">2026</span></div>
+            <div class="chart-bars">
+              <div class="bar-wrap"><div class="bar" style="height:55%"></div><div class="bar-val">₹34L</div><div class="bar-label">Jan</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:65%"></div><div class="bar-val">₹40L</div><div class="bar-label">Feb</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:50%"></div><div class="bar-val">₹32L</div><div class="bar-label">Mar</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:75%"></div><div class="bar-val">₹46L</div><div class="bar-label">Apr</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:80%"></div><div class="bar-val">₹49L</div><div class="bar-label">May</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:100%;background:var(--gold-lt)"></div><div class="bar-val">₹48L</div><div class="bar-label">Jun</div></div>
+            </div>
+          </div>
+
+          <!-- Recent Orders -->
+          <div class="card">
+            <div class="card-title">Recent Orders <span class="see-all" onclick="sw('orders')">See all</span></div>
+            <table class="tbl">
+              <tr><th>Order ID</th><th>Buyer</th><th>Value</th><th>Status</th></tr>
+              <tr><td>#ORD-4821</td><td>Gulf Traders LLC</td><td>₹4.2L</td><td><span class="badge badge-g">Shipped</span></td></tr>
+              <tr><td>#ORD-4820</td><td>Sharma Dist.</td><td>₹1.8L</td><td><span class="badge badge-y">Processing</span></td></tr>
+              <tr><td>#ORD-4819</td><td>UK Imports Ltd</td><td>₹6.5L</td><td><span class="badge badge-b">In Transit</span></td></tr>
+              <tr><td>#ORD-4818</td><td>Dubai Wholesale</td><td>₹3.1L</td><td><span class="badge badge-g">Delivered</span></td></tr>
+              <tr><td>#ORD-4817</td><td>Patel Traders</td><td>₹90K</td><td><span class="badge badge-r">Pending</span></td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid3">
+          <!-- Top Products -->
+          <div class="card">
+            <div class="card-title">Top Products</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>Chef Knife Set</span><span style="font-weight:700">₹12.4L</span></div><div class="prog-bar"><div class="prog-fill" style="width:85%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>Scissors Premium</span><span style="font-weight:700">₹8.2L</span></div><div class="prog-bar"><div class="prog-fill" style="width:65%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>Peeler Set 3-in-1</span><span style="font-weight:700">₹5.8L</span></div><div class="prog-bar"><div class="prog-fill" style="width:48%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>Chopping Board</span><span style="font-weight:700">₹4.1L</span></div><div class="prog-bar"><div class="prog-fill" style="width:35%"></div></div></div>
+            </div>
+          </div>
+
+          <!-- Export Markets -->
+          <div class="card">
+            <div class="card-title">Export Markets</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>🇦🇪 UAE</span><span style="font-weight:700;color:var(--green)">₹8.4L</span></div><div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>🇬🇧 UK</span><span style="font-weight:700;color:var(--green)">₹6.5L</span></div><div class="prog-bar"><div class="prog-fill" style="width:58%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>🇺🇸 USA</span><span style="font-weight:700;color:var(--green)">₹4.2L</span></div><div class="prog-bar"><div class="prog-fill" style="width:38%"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:0.8rem"><span>🇩🇪 Germany</span><span style="font-weight:700;color:var(--green)">₹3.0L</span></div><div class="prog-bar"><div class="prog-fill" style="width:27%"></div></div></div>
+            </div>
+          </div>
+
+          <!-- AI Insights -->
+          <div class="card" style="background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(139,92,246,0.03));border-color:rgba(139,92,246,0.2)">
+            <div class="card-title" style="color:var(--purple)">🤖 AI Insights</div>
+            <div style="display:flex;flex-direction:column;gap:0.65rem;font-size:0.8rem">
+              <div style="background:var(--s2);border-radius:8px;padding:0.6rem">📈 Demand for chef knives up 34% in UAE this month</div>
+              <div style="background:var(--s2);border-radius:8px;padding:0.6rem">⚠️ Reorder scissors — stock below threshold (180 units)</div>
+              <div style="background:var(--s2);border-radius:8px;padding:0.6rem">💡 3 new UK buyers matched to your product range</div>
+              <div style="background:var(--s2);border-radius:8px;padding:0.6rem">🚚 Shipment #SH-2241 delayed — ETA revised to Jun 18</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VENDORS -->
+      <div id="p-vendors" class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <div style="font-size:0.85rem;color:var(--gray2)">24 verified businesses · AI-matched to your profile</div>
+          <div style="display:flex;gap:0.5rem">
+            <button class="btn-sm btn-outline" onclick="toast('Filters applied','info')">🔍 Filter</button>
+            <button class="btn-sm btn-gold" onclick="toast('Finding AI matches...','info')">🤖 AI Match</button>
+          </div>
+        </div>
+        <div class="vendor-grid">
+          <div class="vc"><div class="vc-head"><div class="vc-logo" style="background:rgba(200,151,58,0.1)">🔪</div><div><div class="vc-name">Gujarat Steel Works</div><div class="vc-type">Manufacturer · Verified ✓</div><div class="vc-loc">📍 Surat, Gujarat</div></div></div><div class="vc-stats"><div class="vcs"><div class="n">₹2.4Cr</div><div class="l">Annual</div></div><div class="vcs"><div class="n">4.8★</div><div class="l">Rating</div></div><div class="vcs"><div class="n">12yr</div><div class="l">Experience</div></div></div><div class="vc-tags"><span class="vtag">Stainless Steel</span><span class="vtag">Cutlery</span><span class="vtag">Export</span></div><div class="vc-actions"><button class="vca" onclick="toast('RFQ sent!','info')">Send RFQ</button><button class="vca primary" onclick="toast('Connected!','info')">Connect</button></div></div>
+          <div class="vc"><div class="vc-head"><div class="vc-logo" style="background:rgba(59,130,246,0.1)">🌐</div><div><div class="vc-name">Gulf Traders LLC</div><div class="vc-type">Overseas Buyer · UAE</div><div class="vc-loc">📍 Dubai, UAE 🇦🇪</div></div></div><div class="vc-stats"><div class="vcs"><div class="n">$800K</div><div class="l">Import Vol</div></div><div class="vcs"><div class="n">4.9★</div><div class="l">Rating</div></div><div class="vcs"><div class="n">8yr</div><div class="l">Experience</div></div></div><div class="vc-tags"><span class="vtag">Kitchen</span><span class="vtag">Wholesale</span><span class="vtag">HORECA</span></div><div class="vc-actions"><button class="vca" onclick="toast('RFQ sent!','info')">Send RFQ</button><button class="vca primary" onclick="toast('Connected!','info')">Connect</button></div></div>
+          <div class="vc"><div class="vc-head"><div class="vc-logo" style="background:rgba(34,197,94,0.1)">🚚</div><div><div class="vc-name">Sharma Distributors</div><div class="vc-type">Distributor · India</div><div class="vc-loc">📍 Mumbai, Maharashtra</div></div></div><div class="vc-stats"><div class="vcs"><div class="n">₹1.8Cr</div><div class="l">Annual</div></div><div class="vcs"><div class="n">4.6★</div><div class="l">Rating</div></div><div class="vcs"><div class="n">15yr</div><div class="l">Experience</div></div></div><div class="vc-tags"><span class="vtag">FMCG</span><span class="vtag">HoReCa</span><span class="vtag">Retail</span></div><div class="vc-actions"><button class="vca" onclick="toast('RFQ sent!','info')">Send RFQ</button><button class="vca primary" onclick="toast('Connected!','info')">Connect</button></div></div>
+          <div class="vc"><div class="vc-head"><div class="vc-logo" style="background:rgba(239,68,68,0.1)">🇬🇧</div><div><div class="vc-name">UK Imports Ltd</div><div class="vc-type">Overseas Buyer · UK</div><div class="vc-loc">📍 London, UK 🇬🇧</div></div></div><div class="vc-stats"><div class="vcs"><div class="n">£420K</div><div class="l">Import Vol</div></div><div class="vcs"><div class="n">4.7★</div><div class="l">Rating</div></div><div class="vcs"><div class="n">6yr</div><div class="l">Experience</div></div></div><div class="vc-tags"><span class="vtag">Premium</span><span class="vtag">Retail Chain</span></div><div class="vc-actions"><button class="vca" onclick="toast('RFQ sent!','info')">Send RFQ</button><button class="vca primary" onclick="toast('Connected!','info')">Connect</button></div></div>
+          <div class="vc"><div class="vc-head"><div class="vc-logo" style="background:rgba(245,158,11,0.1)">🏭</div><div><div class="vc-name">Rajasthan Crafts</div><div class="vc-type">Manufacturer · India</div><div class="vc-loc">📍 Jaipur, Rajasthan</div></div></div><div class="vc-stats"><div class="vcs"><div class="n">₹95L</div><div class="l">Annual</div></div><div class="vcs"><div class="n">4.5★</div><div class="l">Rating</div></div><div class="vcs"><div class="n">20yr</div><div class="l">Experience</div></div></div><div class="vc-tags"><span class="vtag">Handicraft</span><span class="vtag">Export</span><span class="vtag">OEM</span></div><div class="vc-actions"><button class="vca" onclick="toast('RFQ sent!','info')">Send RFQ</button><button class="vca primary" onclick="toast('Connected!','info')">Connect</button></div></div>
+          <div class="vc" style="border:1px dashed rgba(200,151,58,0.3);background:var(--gdim);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;min-height:180px;cursor:pointer" onclick="toast('🤖 AI finding best matches for you...','info')"><div style="font-size:2rem">🤖</div><div style="font-size:0.85rem;font-weight:700;color:var(--gold)">AI Find More Vendors</div><div style="font-size:0.72rem;color:var(--gray2);text-align:center">Click to let AI search globally for buyers matching your products</div></div>
+        </div>
+      </div>
+
+      <!-- INVENTORY -->
+      <div id="p-inventory" class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <div class="stats-grid" style="flex:1;margin:0;margin-right:1rem">
+            <div class="stat-card"><div class="sc-icon">📦</div><div class="sc-val">1,840</div><div class="sc-label">Total Units</div></div>
+            <div class="stat-card"><div class="sc-icon">⚠️</div><div class="sc-val">3</div><div class="sc-label">Low Stock Items</div><div class="sc-change down">Reorder needed</div></div>
+            <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-val">₹24.6L</div><div class="sc-label">Inventory Value</div></div>
+            <div class="stat-card"><div class="sc-icon">🔄</div><div class="sc-val">48</div><div class="sc-label">Pending Reorders</div></div>
+          </div>
+          <button class="btn-sm btn-gold" onclick="toast('Adding new product...','info')">+ Add Product</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Stock Management</div>
+          <table class="tbl">
+            <tr><th>SKU</th><th>Product Name</th><th>Category</th><th>Stock</th><th>Reorder Level</th><th>Value</th><th>Status</th><th>Action</th></tr>
+            <tr><td>CUT-001</td><td>Chef Knife 8" Premium</td><td>Cutlery</td><td>420 units</td><td>100</td><td>₹8.4L</td><td><span class="badge badge-g">In Stock</span></td><td><button class="btn-sm btn-outline" onclick="toast('Updating stock...','info')">Update</button></td></tr>
+            <tr><td>CUT-002</td><td>Kitchen Scissors Heavy</td><td>Cutlery</td><td>180 units</td><td>200</td><td><span style="color:var(--red)">₹2.7L</span></td><td><span class="badge badge-r">Low Stock</span></td><td><button class="btn-sm btn-gold" onclick="toast('Reorder placed!','info')">Reorder</button></td></tr>
+            <tr><td>CUT-003</td><td>Peeler Set 3-in-1</td><td>Kitchen Tools</td><td>650 units</td><td>150</td><td>₹4.9L</td><td><span class="badge badge-g">In Stock</span></td><td><button class="btn-sm btn-outline" onclick="toast('Updating...','info')">Update</button></td></tr>
+            <tr><td>CUT-004</td><td>Chopping Board Bamboo</td><td>Kitchen</td><td>85 units</td><td>100</td><td><span style="color:var(--red)">₹1.3L</span></td><td><span class="badge badge-r">Low Stock</span></td><td><button class="btn-sm btn-gold" onclick="toast('Reorder placed!','info')">Reorder</button></td></tr>
+            <tr><td>CUT-005</td><td>Bread Knife Serrated</td><td>Cutlery</td><td>310 units</td><td>80</td><td>₹4.6L</td><td><span class="badge badge-g">In Stock</span></td><td><button class="btn-sm btn-outline" onclick="toast('Updating...','info')">Update</button></td></tr>
+            <tr><td>CUT-006</td><td>Knife Block Set 7-pc</td><td>Set</td><td>45 units</td><td>50</td><td><span style="color:var(--orange)">₹2.7L</span></td><td><span class="badge badge-y">Near Low</span></td><td><button class="btn-sm btn-gold" onclick="toast('Reorder placed!','info')">Reorder</button></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- TRANSPORT -->
+      <div id="p-transport" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">🚢</div><div class="sc-val">12</div><div class="sc-label">Active Shipments</div></div>
+          <div class="stat-card"><div class="sc-icon">✅</div><div class="sc-val">48</div><div class="sc-label">Delivered This Month</div></div>
+          <div class="stat-card"><div class="sc-icon">⚠️</div><div class="sc-val">2</div><div class="sc-label">Delayed Shipments</div></div>
+          <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-val">₹3.2L</div><div class="sc-label">Freight Cost MTD</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Active Shipments</div>
+          <table class="tbl">
+            <tr><th>Shipment ID</th><th>Destination</th><th>Carrier</th><th>Method</th><th>Weight</th><th>ETA</th><th>Status</th></tr>
+            <tr><td>#SH-2244</td><td>Dubai, UAE 🇦🇪</td><td>DHL Express</td><td>Air</td><td>485 kg</td><td>Jun 16</td><td><span class="badge badge-b">In Transit</span></td></tr>
+            <tr><td>#SH-2243</td><td>London, UK 🇬🇧</td><td>FedEx</td><td>Sea</td><td>2.4 MT</td><td>Jul 8</td><td><span class="badge badge-y">Loading</span></td></tr>
+            <tr><td>#SH-2242</td><td>Mumbai 🇮🇳</td><td>BlueDart</td><td>Road</td><td>120 kg</td><td>Jun 15</td><td><span class="badge badge-g">Out for Delivery</span></td></tr>
+            <tr><td>#SH-2241</td><td>Frankfurt, Germany 🇩🇪</td><td>Maersk</td><td>Sea</td><td>5.2 MT</td><td>Jul 18</td><td><span class="badge badge-r">Delayed</span></td></tr>
+            <tr><td>#SH-2240</td><td>Singapore 🇸🇬</td><td>Singapore Post</td><td>Air</td><td>280 kg</td><td>Jun 17</td><td><span class="badge badge-b">In Transit</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- FINANCE -->
+      <div id="p-finance" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-val">₹48.6L</div><div class="sc-label">Revenue (June)</div><div class="sc-change up">↑ 18.4%</div></div>
+          <div class="stat-card"><div class="sc-icon">📤</div><div class="sc-val">₹12.4L</div><div class="sc-label">Pending Receivables</div></div>
+          <div class="stat-card"><div class="sc-icon">📥</div><div class="sc-val">₹8.2L</div><div class="sc-label">Payables Due</div></div>
+          <div class="stat-card"><div class="sc-icon">📊</div><div class="sc-val">₹28.4L</div><div class="sc-label">Net Profit (June)</div><div class="sc-change up">↑ 22%</div></div>
+        </div>
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title">Recent Invoices</div>
+            <table class="tbl">
+              <tr><th>Invoice</th><th>Buyer</th><th>Amount</th><th>Due</th><th>Status</th></tr>
+              <tr><td>INV-2024</td><td>Gulf Traders</td><td>₹4.2L</td><td>Jun 20</td><td><span class="badge badge-y">Pending</span></td></tr>
+              <tr><td>INV-2023</td><td>UK Imports</td><td>₹6.5L</td><td>Jul 5</td><td><span class="badge badge-b">Sent</span></td></tr>
+              <tr><td>INV-2022</td><td>Sharma Dist.</td><td>₹1.8L</td><td>Jun 18</td><td><span class="badge badge-g">Paid ✓</span></td></tr>
+              <tr><td>INV-2021</td><td>Dubai Wholesale</td><td>₹3.1L</td><td>Jun 15</td><td><span class="badge badge-r">Overdue</span></td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-title">Payment Summary</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div style="display:flex;justify-content:space-between;padding:0.75rem;background:var(--s2);border-radius:8px"><span style="font-size:0.82rem">Total Invoiced (June)</span><span style="font-weight:700;color:var(--gold)">₹48.6L</span></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem;background:var(--s2);border-radius:8px"><span style="font-size:0.82rem">Received</span><span style="font-weight:700;color:var(--green)">₹36.2L</span></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem;background:var(--s2);border-radius:8px"><span style="font-size:0.82rem">Pending</span><span style="font-weight:700;color:var(--orange)">₹12.4L</span></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem;background:rgba(239,68,68,0.08);border-radius:8px;border:1px solid rgba(239,68,68,0.2)"><span style="font-size:0.82rem">Overdue</span><span style="font-weight:700;color:var(--red)">₹3.1L</span></div>
+              <button class="btn-sm btn-gold" onclick="toast('Generating invoice...','info')" style="margin-top:0.25rem">+ Generate Invoice</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMPORT EXPORT -->
+      <div id="p-importexport" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">📤</div><div class="sc-val">₹22.1L</div><div class="sc-label">Exports (June)</div><div class="sc-change up">↑ 24%</div></div>
+          <div class="stat-card"><div class="sc-icon">📥</div><div class="sc-val">₹8.4L</div><div class="sc-label">Imports (June)</div></div>
+          <div class="stat-card"><div class="sc-icon">🌍</div><div class="sc-val">14</div><div class="sc-label">Export Countries</div></div>
+          <div class="stat-card"><div class="sc-icon">📋</div><div class="sc-val">6</div><div class="sc-label">Pending Customs</div></div>
+        </div>
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title">Export Shipments</div>
+            <div class="ie-card"><div class="ie-flag">🇦🇪</div><div class="ie-body"><div class="ie-title">Chef Knife Set — 500 units</div><div class="ie-detail">Gulf Traders LLC · Dubai · HS: 8211.91</div><div class="ie-type ie-exp">EXPORT</div></div><div class="ie-val"><div class="ie-amount">₹4.2L</div><div class="ie-date">Shipped Jun 14</div></div></div>
+            <div class="ie-card"><div class="ie-flag">🇬🇧</div><div class="ie-body"><div class="ie-title">Premium Cutlery Set — 200 boxes</div><div class="ie-detail">UK Imports Ltd · London · HS: 8211.91</div><div class="ie-type ie-exp">EXPORT</div></div><div class="ie-val"><div class="ie-amount">₹6.5L</div><div class="ie-date">Processing</div></div></div>
+            <div class="ie-card"><div class="ie-flag">🇩🇪</div><div class="ie-body"><div class="ie-title">Kitchen Tools Assorted</div><div class="ie-detail">Hofmann GmbH · Frankfurt · HS: 8215.99</div><div class="ie-type ie-exp">EXPORT</div></div><div class="ie-val"><div class="ie-amount">₹3.0L</div><div class="ie-date">Customs clearance</div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Import Records</div>
+            <div class="ie-card"><div class="ie-flag">🇨🇳</div><div class="ie-body"><div class="ie-title">Steel Raw Material — 5 MT</div><div class="ie-detail">Shanghai Steel Co. · China</div><div class="ie-type ie-imp">IMPORT</div></div><div class="ie-val"><div class="ie-amount" style="color:var(--blue)">₹4.2L</div><div class="ie-date">Received Jun 10</div></div></div>
+            <div class="ie-card"><div class="ie-flag">🇩🇪</div><div class="ie-body"><div class="ie-title">Grinding Machinery Parts</div><div class="ie-detail">Bosch Machinery · Germany</div><div class="ie-type ie-imp">IMPORT</div></div><div class="ie-val"><div class="ie-amount" style="color:var(--blue)">₹2.1L</div><div class="ie-date">In transit</div></div></div>
+            <div class="ie-card"><div class="ie-flag">🇯🇵</div><div class="ie-body"><div class="ie-title">Precision Blade Steel</div><div class="ie-detail">Kyocera Corp · Japan</div><div class="ie-type ie-imp">IMPORT</div></div><div class="ie-val"><div class="ie-amount" style="color:var(--blue)">₹2.1L</div><div class="ie-date">Ordered</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI ASSISTANT -->
+      <div id="p-ai" class="panel">
+        <div class="ai-panel">
+          <div class="ai-head">
+            <div class="ai-av">🤖</div>
+            <div class="ai-inf">
+              <h3>SK² Business AI</h3>
+              <p>B2B Trade Expert · Import/Export · Inventory · Finance</p>
+            </div>
+            <div class="ai-status"><div class="ai-dot"></div>Online · Powered by Claude</div>
+          </div>
+          <div class="chat-wrap">
+            <div class="chat-msgs" id="chatMsgs">
+              <div class="msg bot">👋 Hello! I'm <strong>SK² Business AI</strong> — your expert assistant for B2B trade, inventory, import/export, finance, and vendor management.<br/><br/>Ask me anything about your business!</div>
+            </div>
+            <div class="chat-bottom">
+              <div class="quick-qs">
+                <div class="qq" onclick="askQ('How to find buyers in UAE for cutlery?')">🇦🇪 Find UAE buyers</div>
+                <div class="qq" onclick="askQ('What is HS code for kitchen knives?')">📋 HS Code help</div>
+                <div class="qq" onclick="askQ('How to reduce inventory costs?')">📦 Cut inventory costs</div>
+                <div class="qq" onclick="askQ('How to get export incentives from India government?')">💰 Export incentives</div>
+                <div class="qq" onclick="askQ('Which countries import most cutlery from India?')">🌍 Top import countries</div>
+              </div>
+              <div class="chat-inp-row">
+                <input class="chat-inp" id="chatIn" placeholder="Ask about trade, inventory, export, finance..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+                <button class="send-btn" onclick="sendMsg()">➤</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRM -->
+      <div id="p-crm" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">👥</div><div class="sc-val">142</div><div class="sc-label">Total Contacts</div></div>
+          <div class="stat-card"><div class="sc-icon">🔥</div><div class="sc-val">24</div><div class="sc-label">Hot Leads</div></div>
+          <div class="stat-card"><div class="sc-icon">🤝</div><div class="sc-val">18</div><div class="sc-label">Active Deals</div></div>
+          <div class="stat-card"><div class="sc-icon">💰</div><div class="sc-val">₹84L</div><div class="sc-label">Pipeline Value</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Lead Pipeline</div>
+          <table class="tbl">
+            <tr><th>Company</th><th>Country</th><th>Product Interest</th><th>Value</th><th>Stage</th><th>Last Contact</th></tr>
+            <tr><td>Al Madina Trading</td><td>🇸🇦 Saudi Arabia</td><td>Chef Knife Sets</td><td>₹12L</td><td><span class="badge badge-r">New Lead</span></td><td>Today</td></tr>
+            <tr><td>Euro Kitchen GmbH</td><td>🇩🇪 Germany</td><td>Premium Cutlery</td><td>₹18L</td><td><span class="badge badge-y">Proposal Sent</span></td><td>Jun 12</td></tr>
+            <tr><td>Singapore Traders</td><td>🇸🇬 Singapore</td><td>Kitchen Tools Set</td><td>₹8L</td><td><span class="badge badge-b">Negotiation</span></td><td>Jun 13</td></tr>
+            <tr><td>Patel Wholesale</td><td>🇮🇳 India</td><td>Bulk Knives</td><td>₹4L</td><td><span class="badge badge-p">Sample Sent</span></td><td>Jun 10</td></tr>
+            <tr><td>US Kitchen Depot</td><td>🇺🇸 USA</td><td>OEM Cutlery</td><td>₹32L</td><td><span class="badge badge-y">Proposal Sent</span></td><td>Jun 8</td></tr>
+            <tr><td>Tokyo Imports K.K.</td><td>🇯🇵 Japan</td><td>Specialty Knives</td><td>₹10L</td><td><span class="badge badge-g">Deal Closing</span></td><td>Jun 14</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- MARKETING -->
+      <div id="p-marketing" class="panel">
+        <div class="grid2">
+          <div class="card" style="border-color:rgba(139,92,246,0.3)">
+            <div class="card-title" style="color:var(--purple)">🤖 AI Marketing Generator</div>
+            <div class="form-group" style="margin-bottom:0.75rem"><label>Product Name</label><input placeholder="e.g. Premium Chef Knife 8 inch"/></div>
+            <div class="form-group" style="margin-bottom:0.75rem"><label>Target Market</label><select><option>UAE Restaurants</option><option>UK Retailers</option><option>US Wholesale</option><option>India Distributors</option></select></div>
+            <div class="form-group" style="margin-bottom:0.75rem"><label>Marketing Channel</label><select><option>LinkedIn B2B Post</option><option>Email Campaign</option><option>WhatsApp Business</option><option>Trade Portal Listing</option></select></div>
+            <button class="btn-sm btn-gold" onclick="genMarketing()" style="width:100%">🤖 Generate AI Content →</button>
+            <div id="mkt-output" style="display:none;margin-top:0.85rem;background:var(--s2);border-radius:8px;padding:0.85rem;font-size:0.82rem;line-height:1.7;color:rgba(255,255,255,0.85)"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Campaign Performance</div>
+            <table class="tbl">
+              <tr><th>Campaign</th><th>Reach</th><th>Leads</th><th>ROI</th></tr>
+              <tr><td>UAE Email Blast</td><td>2,400</td><td>48</td><td><span style="color:var(--green)">340%</span></td></tr>
+              <tr><td>LinkedIn B2B</td><td>8,200</td><td>124</td><td><span style="color:var(--green)">520%</span></td></tr>
+              <tr><td>WhatsApp Broadcast</td><td>680</td><td>32</td><td><span style="color:var(--green)">280%</span></td></tr>
+              <tr><td>Trade Portal</td><td>12,400</td><td>86</td><td><span style="color:var(--green)">410%</span></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div id="p-products" class="panel">
+        <div style="display:flex;justify-content:space-between;margin-bottom:1rem">
+          <div style="font-size:0.85rem;color:var(--gray2)">24 products listed · Visible to global buyers</div>
+          <button class="btn-sm btn-gold" onclick="toast('Adding product...','info')">+ Add Product</button>
+        </div>
+        <div class="prod-grid">
+          <div class="prod-card" onclick="toast('Opening product...','info')"><div class="prod-img">🔪</div><div class="prod-body"><div class="prod-name">Chef Knife 8" Premium</div><div class="prod-mfr">SK² Manufacturing</div><div class="prod-price">₹1,850/pc</div><div class="prod-moq">MOQ: 100 pcs</div><div class="prod-stock"><span class="badge badge-g">420 in stock</span></div></div></div>
+          <div class="prod-card" onclick="toast('Opening product...','info')"><div class="prod-img">✂️</div><div class="prod-body"><div class="prod-name">Kitchen Scissors Heavy</div><div class="prod-mfr">SK² Manufacturing</div><div class="prod-price">₹680/pc</div><div class="prod-moq">MOQ: 200 pcs</div><div class="prod-stock"><span class="badge badge-r">Low: 180 units</span></div></div></div>
+          <div class="prod-card" onclick="toast('Opening product...','info')"><div class="prod-img">🥄</div><div class="prod-body"><div class="prod-name">Peeler Set 3-in-1</div><div class="prod-mfr">SK² Manufacturing</div><div class="prod-price">₹420/set</div><div class="prod-moq">MOQ: 500 sets</div><div class="prod-stock"><span class="badge badge-g">650 in stock</span></div></div></div>
+          <div class="prod-card" onclick="toast('Opening product...','info')"><div class="prod-img">🪓</div><div class="prod-body"><div class="prod-name">Chopping Board Bamboo</div><div class="prod-mfr">SK² Manufacturing</div><div class="prod-price">₹380/pc</div><div class="prod-moq">MOQ: 200 pcs</div><div class="prod-stock"><span class="badge badge-r">Low: 85 units</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div id="p-orders" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">🛒</div><div class="sc-val">284</div><div class="sc-label">Total Orders</div></div>
+          <div class="stat-card"><div class="sc-icon">⏳</div><div class="sc-val">8</div><div class="sc-label">Pending</div></div>
+          <div class="stat-card"><div class="sc-icon">🚚</div><div class="sc-val">12</div><div class="sc-label">Shipped</div></div>
+          <div class="stat-card"><div class="sc-icon">✅</div><div class="sc-val">264</div><div class="sc-label">Delivered</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">All Orders</div>
+          <table class="tbl">
+            <tr><th>Order ID</th><th>Buyer</th><th>Country</th><th>Products</th><th>Value</th><th>Date</th><th>Status</th><th>Action</th></tr>
+            <tr><td>#ORD-4821</td><td>Gulf Traders LLC</td><td>🇦🇪 UAE</td><td>Chef Knife ×500</td><td>₹4.2L</td><td>Jun 14</td><td><span class="badge badge-b">Shipped</span></td><td><button class="btn-sm btn-outline" onclick="toast('Tracking...','info')">Track</button></td></tr>
+            <tr><td>#ORD-4820</td><td>Sharma Distributors</td><td>🇮🇳 India</td><td>Scissors ×200</td><td>₹1.8L</td><td>Jun 13</td><td><span class="badge badge-y">Processing</span></td><td><button class="btn-sm btn-gold" onclick="toast('Processing order...','info')">Process</button></td></tr>
+            <tr><td>#ORD-4819</td><td>UK Imports Ltd</td><td>🇬🇧 UK</td><td>Premium Set ×200</td><td>₹6.5L</td><td>Jun 12</td><td><span class="badge badge-b">In Transit</span></td><td><button class="btn-sm btn-outline" onclick="toast('Tracking...','info')">Track</button></td></tr>
+            <tr><td>#ORD-4818</td><td>Dubai Wholesale</td><td>🇦🇪 UAE</td><td>Mixed Cutlery ×300</td><td>₹3.1L</td><td>Jun 10</td><td><span class="badge badge-g">Delivered ✓</span></td><td><button class="btn-sm btn-outline" onclick="toast('Invoice sent','info')">Invoice</button></td></tr>
+            <tr><td>#ORD-4817</td><td>Patel Traders</td><td>🇮🇳 India</td><td>Knife Block ×50</td><td>₹90K</td><td>Jun 9</td><td><span class="badge badge-r">Pending</span></td><td><button class="btn-sm btn-gold" onclick="toast('Confirmed!','info')">Confirm</button></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div id="p-analytics" class="panel">
+        <div class="stats-grid" style="margin-bottom:1rem">
+          <div class="stat-card"><div class="sc-icon">👀</div><div class="sc-val">48.2K</div><div class="sc-label">Profile Views (Month)</div><div class="sc-change up">↑ 34%</div></div>
+          <div class="stat-card"><div class="sc-icon">📩</div><div class="sc-val">284</div><div class="sc-label">RFQs Received</div><div class="sc-change up">↑ 28%</div></div>
+          <div class="stat-card"><div class="sc-icon">🔄</div><div class="sc-val">68%</div><div class="sc-label">Order Conversion</div><div class="sc-change up">↑ 12%</div></div>
+          <div class="stat-card"><div class="sc-icon">⭐</div><div class="sc-val">4.8/5</div><div class="sc-label">Buyer Rating</div></div>
+        </div>
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title">Revenue by Region</div>
+            <div class="chart-bars">
+              <div class="bar-wrap"><div class="bar" style="height:85%;background:#C8973A"></div><div class="bar-val">₹22L</div><div class="bar-label">UAE</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:65%;background:#3B82F6"></div><div class="bar-val">₹16L</div><div class="bar-label">UK</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:55%;background:#22C55E"></div><div class="bar-val">₹14L</div><div class="bar-label">India</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:40%;background:#8B5CF6"></div><div class="bar-val">₹10L</div><div class="bar-label">USA</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:30%;background:#F59E0B"></div><div class="bar-val">₹7L</div><div class="bar-label">Germany</div></div>
+              <div class="bar-wrap"><div class="bar" style="height:20%;background:#06B6D4"></div><div class="bar-val">₹5L</div><div class="bar-label">Others</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">AI Growth Recommendations</div>
+            <div style="display:flex;flex-direction:column;gap:0.65rem;font-size:0.82rem">
+              <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:0.75rem">📈 <strong>Expand to Saudi Arabia</strong> — 42% demand growth for Indian cutlery in KSA this quarter</div>
+              <div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:0.75rem">💡 <strong>Add Premium Line</strong> — UK buyers willing to pay 35% more for certified premium range</div>
+              <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:8px;padding:0.75rem">🎯 <strong>LinkedIn Campaign</strong> — Post product video to reach 8K+ UAE restaurant buyers</div>
+              <div style="background:rgba(200,151,58,0.08);border:1px solid rgba(200,151,58,0.2);border-radius:8px;padding:0.75rem">⚡ <strong>Fast Reorder</strong> — Scissors stock will hit zero in 12 days at current sell rate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="p-settings" class="panel">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-title">Company Profile</div>
+            <div class="form-grid">
+              <div class="form-group"><label>Company Name</label><input value="SK² Global Services"/></div>
+              <div class="form-group"><label>GST Number</label><input value="29AABCS1234M1Z5"/></div>
+              <div class="form-group"><label>IEC Code</label><input value="AABCS1234M"/></div>
+              <div class="form-group"><label>Business Type</label><select><option>Manufacturer</option></select></div>
+              <div class="form-group" style="grid-column:1/-1"><label>Address</label><input value="Bengaluru, Karnataka, India 560001"/></div>
+            </div>
+            <div style="margin-top:0.85rem;display:flex;gap:0.5rem"><button class="btn-sm btn-gold" onclick="toast('Profile saved!','info')">Save Changes</button><button class="btn-sm btn-outline" onclick="toast('Cancelled','info')">Cancel</button></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Security Settings</div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.85rem">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--s2);border-radius:8px"><div><div style="font-weight:600">Two-Factor Auth (2FA)</div><div style="font-size:0.72rem;color:var(--gray2)">SMS + Authenticator App</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--s2);border-radius:8px"><div><div style="font-weight:600">Login Alerts</div><div style="font-size:0.72rem;color:var(--gray2)">Email on new login</div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--s2);border-radius:8px"><div><div style="font-weight:600">End-to-End Encryption</div><div style="font-size:0.72rem;color:var(--green)">Active — AES-256</div></div><div style="color:var(--green);font-size:0.8rem">🔒 Active</div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--s2);border-radius:8px"><div><div style="font-weight:600">API Access</div><div style="font-size:0.72rem;color:var(--gray2)">Manage API keys</div></div><button class="btn-sm btn-outline" onclick="toast('Managing API keys...','info')">Manage</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end app -->
+
+<div class="toggle" style="display:none"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// Splash timing
+setTimeout(() => {
+  document.getElementById('splash').classList.remove('active');
+  document.getElementById('auth').classList.add('active');
+}, 3000);
+
+function sat(t) {
+  document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('on',(t==='login'&&i===0)||(t==='reg'&&i===1)));
+  document.getElementById('lf').style.display = t==='login'?'block':'none';
+  document.getElementById('rf').style.display = t==='reg'?'block':'none';
+}
+
+function goApp() {
+  document.getElementById('auth').classList.remove('active');
+  document.getElementById('app').classList.add('active');
+}
+
+function sw(page) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  const p = document.getElementById('p-'+page);
+  if(p) p.classList.add('active');
+  const titles = {dashboard:'Dashboard',vendors:'Vendors & Buyers',products:'Products',orders:'Orders',inventory:'Inventory Management',transport:'Transport Management',finance:'Finance & Payments',importexport:'Import / Export',crm:'CRM — Lead Management',marketing:'AI Digital Marketing',ai:'SK² AI Assistant',analytics:'Analytics & Reports',settings:'Settings'};
+  document.getElementById('page-title').textContent = titles[page] || page;
+  event.currentTarget && event.currentTarget.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function toast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// AI Chat
+const aiR = {
+  'uae': '🇦🇪 To find UAE buyers for cutlery:\n\n1. List on Dubai Chamber B2B portal\n2. Register on UAE Trade Connect\n3. Attend Gulfood Exhibition (Feb, Dubai)\n4. Contact FIEO for buyer database\n5. Use SK² AI matching — we have 240+ UAE importers\n\nTop UAE buyers import ₹45–200L annually. Your Chef Knife range is perfect for HORECA market.',
+  'hs code': '📋 HS Codes for Kitchen Cutlery:\n\n• Kitchen Knives: 8211.91\n• Scissors: 8213.00\n• Peelers/Kitchen Tools: 8215.99\n• Knife Sets: 8211.10\n• Chopping Boards: 3924.10\n\nFor export, mention HS code on invoice + packing list + Bill of Lading. Customs duty in UAE is 5% on 8211.91.',
+  'inventory': '📦 Ways to reduce inventory costs:\n\n1. Just-in-time ordering — order based on demand forecasting\n2. ABC analysis — focus on high-value items (A category)\n3. Safety stock formula — (Max daily use × Max lead time) - (Avg daily use × Avg lead time)\n4. Negotiate with suppliers for 30-day credit\n5. Our AI predicts your reorder point automatically\n\nYour scissors need reorder NOW — 12 days to stockout at current rate.',
+  'export incentive': '💰 India Government Export Incentives:\n\n1. RoDTEP — 0.5–4.3% of FOB value refund\n2. MEIS — Market linked incentive\n3. EPCG Scheme — 0% customs duty on machinery\n4. Duty Drawback — Refund on imported raw materials\n5. GST Refund — Zero rated for exports\n\nFor cutlery (HS 8211), RoDTEP rate is ~1.8%. On ₹22L exports = ₹39,600 monthly benefit. Apply via DGFT portal.',
+  'countries': '🌍 Top countries importing cutlery from India:\n\n1. 🇺🇸 USA — $480M annually (28% share)\n2. 🇬🇧 UK — $180M (11%)\n3. 🇩🇪 Germany — $140M (8%)\n4. 🇦🇪 UAE — $120M (7%)\n5. 🇦🇺 Australia — $95M (6%)\n6. 🇸🇦 Saudi Arabia — $88M (5%) ← Growing fast!\n\nYour current mix (UAE + UK) is good. Adding USA and KSA could double revenue in 18 months.',
+  'default': '🤖 I can help you with:\n\n• Finding overseas buyers for your products\n• HS codes and export documentation\n• Import/Export incentives from India government\n• Inventory optimization strategies\n• Pricing strategy for different markets\n• Logistics and shipping costs\n• Payment terms and trade finance\n\nWhat specific challenge can I help you solve today?'
+};
+
+function getReply(msg) {
+  msg = msg.toLowerCase();
+  if(msg.includes('uae') || msg.includes('dubai')) return aiR['uae'];
+  if(msg.includes('hs code') || msg.includes('hs')) return aiR['hs code'];
+  if(msg.includes('inventor')) return aiR['inventory'];
+  if(msg.includes('incentive') || msg.includes('scheme')) return aiR['export incentive'];
+  if(msg.includes('countr') || msg.includes('import')) return aiR['countries'];
+  return aiR['default'];
+}
+
+function addMsg(text, type) {
+  const c = document.getElementById('chatMsgs');
+  const d = document.createElement('div');
+  d.className = 'msg ' + type;
+  d.innerHTML = text.replace(/\n/g,'<br/>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function sendMsg() {
+  const inp = document.getElementById('chatIn');
+  const msg = inp.value.trim();
+  if(!msg) return;
+  inp.value = '';
+  addMsg(msg, 'user');
+  const ty = document.createElement('div');
+  ty.className = 'typing';
+  ty.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
+  document.getElementById('chatMsgs').appendChild(ty);
+  document.getElementById('chatMsgs').scrollTop = 9999;
+  setTimeout(() => {
+    ty.remove();
+    addMsg(getReply(msg), 'bot');
+  }, 1200);
+}
+
+function askQ(q) {
+  sw('ai');
+  setTimeout(() => {
+    document.getElementById('chatIn').value = q;
+    sendMsg();
+  }, 100);
+}
+
+function genMarketing() {
+  const out = document.getElementById('mkt-output');
+  out.style.display = 'block';
+  out.innerHTML = '⏳ AI generating content...';
+  setTimeout(() => {
+    out.innerHTML = `<strong>🤖 AI Generated — LinkedIn B2B Post:</strong><br/><br/>🔪 <strong>Premium Indian Cutlery — Direct from Manufacturer</strong><br/><br/>Looking for high-quality, export-grade kitchen knives and cutlery at competitive prices?<br/><br/>SK² Global Services offers:<br/>✅ Chef Knives — 8" Premium Grade (MOQ: 100 pcs)<br/>✅ ISO certified stainless steel<br/>✅ OEM/Private label available<br/>✅ Shipped to UAE, UK, USA, Germany<br/>✅ Competitive FOB pricing<br/><br/>📧 Contact: sk2sgs@gmail.com<br/>📞 +91 9940545054<br/>🌐 hub.sk2square.com<br/><br/>#Cutlery #KitchenKnives #IndiaExport #B2B #Manufacturing`;
+    toast('✅ AI content generated!', 'success');
+  }, 1800);
+}
+</script>
+</body>
+</html>
