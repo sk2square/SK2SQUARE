@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SK Square Global Services | GCC Setup Advisory India</title>
+<meta name="description" content="SK Square Global Services helps foreign companies set up Global Capability Centers (GCCs) in India — fast, compliant, and cost-effective. Based in Bengaluru." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0B1628;
+    --ink:     #131E30;
+    --gold:    #C8973A;
+    --gold-lt: #E8B96A;
+    --cream:   #F7F4EE;
+    --white:   #FFFFFF;
+    --gray:    #6B7280;
+    --border:  rgba(200,151,58,0.18);
+    --card-bg: rgba(255,255,255,0.035);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 5%;
+    background: rgba(11,22,40,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 0.65rem;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 38px; height: 38px;
+    background: var(--gold);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1rem;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+  }
+  .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    color: var(--white); letter-spacing: 0.3px;
+  }
+  .logo-sub {
+    font-size: 0.62rem; font-weight: 500;
+    color: var(--gold); letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75); text-decoration: none;
+    font-size: 0.875rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--gold); color: var(--navy);
+    border: none; padding: 0.55rem 1.35rem;
+    border-radius: 6px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600; font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 7rem 5% 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,151,58,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 15% 80%, rgba(200,151,58,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(200,151,58,0.6) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,151,58,0.6) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(200,151,58,0.12);
+    border: 1px solid rgba(200,151,58,0.3);
+    border-radius: 20px;
+    padding: 0.35rem 0.9rem;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.72);
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--gold); color: var(--navy);
+    padding: 0.85rem 1.9rem; border-radius: 7px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(200,151,58,0.3);
+  }
+  .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,151,58,0.4); }
+
+  .btn-outline {
+    border: 1px solid rgba(255,255,255,0.2); color: var(--white);
+    padding: 0.85rem 1.9rem; border-radius: 7px;
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(200,151,58,0.08); }
+
+  /* Stats bar */
+  .stats-bar {
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 5%;
+    display: flex; gap: 0; flex-wrap: wrap;
+  }
+  .stat-item {
+    flex: 1; min-width: 160px;
+    padding: 0.5rem 2rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    margin-top: 0.25rem; font-weight: 400;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 5%; }
+
+  .section-eye {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800; line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 1rem; color: rgba(255,255,255,0.6);
+    max-width: 540px; line-height: 1.75;
+    margin-bottom: 3rem; font-weight: 300;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--ink); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--ink);
+    padding: 2.2rem 2rem;
+    transition: background 0.2s;
+  }
+  .service-card:hover { background: rgba(200,151,58,0.05); }
+
+  .service-icon {
+    width: 44px; height: 44px;
+    background: rgba(200,151,58,0.12);
+    border-radius: 10px;
+    display: grid; place-items: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+
+  .service-card p {
+    font-size: 0.875rem; color: rgba(255,255,255,0.55);
+    line-height: 1.7; font-weight: 300;
+  }
+
+  /* ── WHY SK SQUARE ── */
+  #why { background: var(--navy); }
+
+  .why-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .why-visual {
+    position: relative;
+  }
+
+  .savings-card {
+    background: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+  }
+
+  .savings-title {
+    font-size: 0.75rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+
+  .savings-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .savings-row:last-child { border-bottom: none; }
+
+  .savings-label { font-size: 0.875rem; color: rgba(255,255,255,0.6); }
+  .savings-us { font-size: 0.9rem; color: rgba(255,255,255,0.4); }
+  .savings-india {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--gold);
+  }
+  .savings-pct {
+    font-size: 0.75rem; font-weight: 600;
+    color: #4ade80; background: rgba(74,222,128,0.1);
+    padding: 0.2rem 0.55rem; border-radius: 20px;
+  }
+
+  .why-points { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-point {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .why-point-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: rgba(200,151,58,0.1);
+    border: 1px solid rgba(200,151,58,0.2);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    font-size: 1rem;
+    margin-top: 2px;
+  }
+  .why-point-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+  .why-point-text p { font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* ── PROCESS ── */
+  #process { background: var(--ink); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    position: relative;
+  }
+
+  .process-step {
+    padding: 2rem 1.75rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .process-step:last-child { border-right: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem; font-weight: 800;
+    color: rgba(200,151,58,0.15);
+    line-height: 1; margin-bottom: 1rem;
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    margin-bottom: 0.5rem; color: var(--white);
+  }
+
+  .step-desc {
+    font-size: 0.85rem; color: rgba(255,255,255,0.5);
+    line-height: 1.65; font-weight: 300;
+  }
+
+  .step-time {
+    display: inline-block; margin-top: 1rem;
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--gold); letter-spacing: 0.5px;
+  }
+
+  /* ── INDUSTRIES ── */
+  #industries { background: var(--navy); }
+
+  .industries-grid {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+  }
+
+  .industry-tag {
+    padding: 0.65rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.875rem; color: rgba(255,255,255,0.7);
+    background: var(--card-bg);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .industry-tag:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(200,151,58,0.05);
+  }
+
+  /* ── CTA ── */
+  #contact {
+    background: var(--ink);
+    text-align: center;
+  }
+
+  .cta-box {
+    max-width: 640px; margin: 0 auto;
+  }
+
+  .cta-box h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800; line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+  }
+
+  .cta-box p {
+    color: rgba(255,255,255,0.6);
+    font-size: 1rem; margin-bottom: 2.5rem;
+    font-weight: 300; line-height: 1.75;
+  }
+
+  .contact-form {
+    display: flex; flex-direction: column; gap: 1rem;
+    text-align: left;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label {
+    font-size: 0.78rem; font-weight: 600;
+    color: rgba(255,255,255,0.5); letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 7px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    background: rgba(200,151,58,0.04);
+  }
+  .form-group select option { background: var(--ink); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .form-submit {
+    background: var(--gold); color: var(--navy);
+    border: none; padding: 0.95rem;
+    border-radius: 7px; font-weight: 700;
+    font-size: 1rem; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s, transform 0.15s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid var(--border);
+    padding: 3rem 5% 2rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.875rem; color: rgba(255,255,255,0.45);
+    line-height: 1.7; margin-top: 1rem; max-width: 280px;
+    font-weight: 300;
+  }
+
+  .footer-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--gold); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 1rem;
+  }
+
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .footer-col ul a {
+    font-size: 0.875rem; color: rgba(255,255,255,0.45);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-col ul a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; color: rgba(255,255,255,0.3);
+    flex-wrap: wrap; gap: 1rem;
+  }
+
+  .social-links { display: flex; gap: 0.75rem; }
+  .social-link {
+    width: 34px; height: 34px;
+    border: 1px solid var(--border); border-radius: 7px;
+    display: grid; place-items: center;
+    color: rgba(255,255,255,0.4); text-decoration: none;
+    font-size: 0.85rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .why-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
+    .process-steps { grid-template-columns: 1fr; }
+    .process-step { border-right: none; border-bottom: 1px solid var(--border); }
+    .process-step:last-child { border-bottom: none; }
+    .stat-item { min-width: 140px; padding: 0.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">SK²</div>
+    <div class="logo-text">
+      <span class="logo-name">SK Square Global Services</span>
+      <span class="logo-sub">GCC Advisory · India</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#industries">Industries</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Free Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Bengaluru · India's GCC Capital</div>
+    <h1>Your <em>Global Capability Center</em> in India, Built Right.</h1>
+    <p>SK Square Global Services helps US, UK, and Singapore companies set up fast, compliant, and cost-efficient GCCs in Bengaluru — cutting team costs by 60% while keeping full IP ownership.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Get Free Cost Analysis</a>
+      <a href="#process" class="btn-outline">How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-number">60%</div>
+    <div class="stat-label">Average cost saving vs US/UK teams</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">8–12</div>
+    <div class="stat-label">Weeks from decision to go-live</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">1,800+</div>
+    <div class="stat-label">GCCs now operating in India</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">45</div>
+    <div class="stat-label">Day fast-track approval, Karnataka</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-eye">What We Do</div>
+  <h2 class="section-title">End-to-End GCC Setup<br/>Under One Roof</h2>
+  <p class="section-sub">From feasibility to first hire — we handle every step so your leadership team can focus on the work, not the paperwork.</p>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🔍</div>
+      <h3>Feasibility & Strategy</h3>
+      <p>City selection, cost-benefit modelling, headcount planning, and ROI projection tailored to your business — before you commit a rupee.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏢</div>
+      <h3>Entity Setup & Compliance</h3>
+      <p>Company registration (Pvt Ltd), PAN, GST, FEMA/RBI filings, and transfer pricing policy — fully handled in 3–5 weeks.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👥</div>
+      <h3>Talent Acquisition</h3>
+      <p>Senior leadership hiring first, then building your team. Engineers, data, finance, QA — vetted and onboarded to your standards.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <h3>Office & Infrastructure</h3>
+      <p>Managed office sourcing, IT hardware, networking, VPN, and cloud setup — ready before your first employee walks in.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚖️</div>
+      <h3>Ongoing Compliance & HR</h3>
+      <p>Monthly payroll, PF/ESI/TDS, statutory filings, and HR policy management — so you stay fully compliant without an in-house team.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚀</div>
+      <h3>GCC-as-a-Service (EOR)</h3>
+      <p>Need to hire in India in days, not months? Start under our Employer of Record — then transfer to your own entity when ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-layout">
+    <div>
+      <div class="section-eye">Why SK Square</div>
+      <h2 class="section-title">Local Depth.<br/>Global Standards.</h2>
+      <p class="section-sub">We are IT professionals who have built teams in India. We speak your language and know this ground.</p>
+      <ul class="why-points">
+        <li class="why-point">
+          <div class="why-point-icon">⚡</div>
+          <div class="why-point-text">
+            <h4>Operational in 8–12 Weeks</h4>
+            <p>EOR-first approach means your first hire can start in days while entity registration runs in parallel.</p>
+          </div>
+        </li>
+        <li class="why-point">
+          <div class="why-point-icon">🔒</div>
+          <div class="why-point-text">
+            <h4>Full IP Ownership — Always</h4>
+            <p>Unlike outsourcing, your GCC is your subsidiary. All code, data, and IP belong 100% to you.</p>
+          </div>
+        </li>
+        <li class="why-point">
+          <div class="why-point-icon">💻</div>
+          <div class="why-point-text">
+            <h4>IT Background — Not Just Advisory</h4>
+            <p>We understand software teams, tech stacks, and delivery models. We hire the right people, not just any people.</p>
+          </div>
+        </li>
+        <li class="why-point">
+          <div class="why-point-icon">🗺️</div>
+          <div class="why-point-text">
+            <h4>Bengaluru Ground Reality</h4>
+            <p>We know which micro-markets to avoid, which offices are GCC-ready, and where the best talent pools are.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="why-visual">
+      <div class="savings-card">
+        <div class="savings-title">Cost Comparison — 15-Person Tech Team</div>
+        <div class="savings-row">
+          <span class="savings-label">Role</span>
+          <span class="savings-us">USA/yr</span>
+          <span class="savings-india">India/yr</span>
+          <span class="savings-pct">Save</span>
+        </div>
+        <div class="savings-row">
+          <span class="savings-label">Sr. Engineer</span>
+          <span class="savings-us">$155K</span>
+          <span class="savings-india">$28K</span>
+          <span class="savings-pct">82%</span>
+        </div>
+        <div class="savings-row">
+          <span class="savings-label">Mid Engineer</span>
+          <span class="savings-us">$110K</span>
+          <span class="savings-india">$16K</span>
+          <span class="savings-pct">85%</span>
+        </div>
+        <div class="savings-row">
+          <span class="savings-label">Data Analyst</span>
+          <span class="savings-us">$95K</span>
+          <span class="savings-india">$14K</span>
+          <span class="savings-pct">85%</span>
+        </div>
+        <div class="savings-row">
+          <span class="savings-label">QA Engineer</span>
+          <span class="savings-us">$85K</span>
+          <span class="savings-india">$12K</span>
+          <span class="savings-pct">86%</span>
+        </div>
+        <div class="savings-row">
+          <span class="savings-label" style="font-weight:600;color:#fff">15-Person Total</span>
+          <span class="savings-us">$2.85M</span>
+          <span class="savings-india" style="font-size:1.15rem">$490K</span>
+          <span class="savings-pct">83%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-eye">How It Works</div>
+  <h2 class="section-title">From Decision to<br/>Operational in 12 Weeks</h2>
+  <p class="section-sub">A proven playbook — no surprises, no delays.</p>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Discovery & Scoping</div>
+      <p class="step-desc">Free 30-min call. We understand your team size, functions, budget, and timeline. We deliver a cost model within 48 hours.</p>
+      <span class="step-time">Week 1</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Feasibility Report</div>
+      <p class="step-desc">City analysis, role-by-role cost breakdown, entity structure, incentives available, and 3-year ROI projection.</p>
+      <span class="step-time">Weeks 1–2</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Entity & Compliance</div>
+      <p class="step-desc">Company registration, GST, PAN, FEMA filings, transfer pricing policy, and bank account — all handled in parallel.</p>
+      <span class="step-time">Weeks 2–6</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <div class="step-title">Office & Infrastructure</div>
+      <p class="step-desc">Managed office sourcing, IT setup, VPN, collaboration tools — fully ready before first hire joins.</p>
+      <span class="step-time">Weeks 4–8</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">05</div>
+      <div class="step-title">Talent & Onboarding</div>
+      <p class="step-desc">GCC Head hired first, team built around them. Full onboarding, payroll, and induction handled end-to-end.</p>
+      <span class="step-time">Weeks 6–12</span>
+    </div>
+    <div class="process-step">
+      <div class="step-num">06</div>
+      <div class="step-title">Go-Live & Handover</div>
+      <p class="step-desc">SLAs defined, governance structure set, HQ integration complete. We stay on as managed ops partner for Month 1–12.</p>
+      <span class="step-time">Week 12+</span>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="section-eye">Who We Serve</div>
+  <h2 class="section-title">Built for Mid-Market<br/>Global Companies</h2>
+  <p class="section-sub">We specialise in helping companies with $10M–$500M revenue establish their first India GCC — across every major sector.</p>
+  <div class="industries-grid">
+    <div class="industry-tag">🖥️ SaaS & Software Product</div>
+    <div class="industry-tag">🏦 BFSI & FinTech</div>
+    <div class="industry-tag">🏥 HealthTech & MedTech</div>
+    <div class="industry-tag">⚙️ Engineering & ER&D</div>
+    <div class="industry-tag">📊 Data & Analytics</div>
+    <div class="industry-tag">☁️ Cloud & DevOps</div>
+    <div class="industry-tag">🛒 E-Commerce & Retail Tech</div>
+    <div class="industry-tag">🔐 Cybersecurity</div>
+    <div class="industry-tag">🤖 AI & Machine Learning</div>
+    <div class="industry-tag">📱 Mobile & Product Engineering</div>
+    <div class="industry-tag">🏭 Manufacturing Tech</div>
+    <div class="industry-tag">⚖️ LegalTech & Compliance</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="cta-box">
+    <div class="section-eye">Get Started</div>
+    <h2>Ready to Build Your India Team?</h2>
+    <p>Tell us about your company. We'll send you a personalised cost model showing exactly what a 10–50 person GCC in Bengaluru would cost — and save — within 48 hours.</p>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="John Smith" required />
+        </div>
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" placeholder="Acme Corp" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Work Email</label>
+          <input type="email" placeholder="john@acmecorp.com" required />
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Australia</option>
+            <option>Singapore</option>
+            <option>UAE</option>
+            <option>Canada</option>
+            <option>Germany</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Planned Team Size</label>
+          <select>
+            <option>5–15 people (Pilot)</option>
+            <option>15–50 people (Small GCC)</option>
+            <option>50–150 people (Mid GCC)</option>
+            <option>150+ people (Large GCC)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Primary Function</label>
+          <select>
+            <option>Software Engineering</option>
+            <option>Data & Analytics</option>
+            <option>Finance & Accounting</option>
+            <option>QA & Testing</option>
+            <option>DevOps & Cloud</option>
+            <option>Mixed / Multiple</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Anything specific you want to know?</label>
+        <textarea placeholder="e.g. We currently spend $50K/month on Indian vendors and want to evaluate a captive model..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send — Get My Free Cost Model →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-mark">SK²</div>
+        <div class="logo-text">
+          <span class="logo-name">SK Square Global Services</span>
+          <span class="logo-sub">GCC Advisory · India</span>
+        </div>
+      </a>
+      <p>Helping global companies build high-performing, cost-efficient Global Capability Centers in Bengaluru, India. Fast. Compliant. Permanent.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Feasibility Study</a></li>
+        <li><a href="#services">Entity Setup</a></li>
+        <li><a href="#services">Talent Acquisition</a></li>
+        <li><a href="#services">EOR / Managed HR</a></li>
+        <li><a href="#services">Office Setup</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#process">How It Works</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:info@sk2square.com">info@sk2square.com</a></li>
+        <li><a href="tel:+918000000000">+91 80 0000 0000</a></li>
+        <li><a href="#">Bengaluru, Karnataka</a></li>
+        <li><a href="#">India – 560001</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 SK Square Global Services. All rights reserved.</span>
+    <div class="social-links">
+      <a href="#" class="social-link" title="LinkedIn">in</a>
+      <a href="#" class="social-link" title="Twitter/X">𝕏</a>
+      <a href="#" class="social-link" title="Instagram">ig</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '✓ Sent! We\'ll be in touch within 24 hours.';
+    btn.style.background = '#4ade80';
+    btn.style.color = '#0B1628';
+    btn.disabled = true;
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
